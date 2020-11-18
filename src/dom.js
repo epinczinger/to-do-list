@@ -11,6 +11,8 @@ const project3 = new Project('Improve garden', 'Do work on the garden to build v
 export const seedTasks = [task1, task2, task3];
 export const seedProjects = [project1, project2, project3];
 
+
+// TASKS
 export const displayTask = (task) => {
 
   const card = document.createElement('div');
@@ -39,10 +41,37 @@ export const displayTask = (task) => {
   return card
 }
 
-export const displayAllTasks = (location, taskList, taskFunction) => {
-  for (let i = 0; i < taskList.length; i += 1) {
-    location.appendChild(taskFunction(taskList[i]));
-  }
+// PROJECTS
+export const displayProject = (project) => {
+
+  const card = document.createElement('div');
+  card.classList.add('card');
+
+  const title = document.createElement('h3');
+  title.classList.add('card-title');
+  title.textContent = project.title;
+
+  const body = document.createElement('p');
+  body.classList.add('card-body');
+  body.textContent = project.description;
+
+  const priority = document.createElement('strong');
+  priority.classList.add('card-body');
+  priority.textContent = project.priority;
+
+  const date = document.createElement('small');
+  date.classList.add('card-body');
+  date.textContent = project.dueDate;
+
+  [title, body, priority, date].forEach(function (element) {
+    card.appendChild(element);
+  })
+
+  return card
 }
 
-let projectsColumn = document.querySelector('#projects-column .project-list');
+export const populateList = (listDestination, listArray, displayFunction) => {
+  for (let i = 0; i < listArray.length; i += 1) {
+    listDestination.appendChild(displayFunction(listArray[i]));
+  }
+}

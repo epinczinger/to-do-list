@@ -1,12 +1,11 @@
 import './style/style.scss';
 import { Task, Project } from './logic';
-import { seedTasks, seedProjects, displayTask, displayAllTasks } from './dom';
-
-// displayAllTasks(projectsColumn, seedTasks, displayTask);
-
-// let taskCard = displayTask(seedTasks[0]);
+import { seedTasks, seedProjects, displayTask, displayProject, populateList } from './dom';
 
 let testDiv = document.createElement('div');
-let projectsColumn = document.querySelector('#projects-column .project-list');
+let tasksColumn = document.querySelector('.task-list');
+let projectsColumn = document.querySelector('.project-list');
 
-displayAllTasks(projectsColumn, seedTasks, displayTask);
+populateList(tasksColumn, seedTasks, displayTask);
+
+populateList(projectsColumn, seedProjects, displayProject);
