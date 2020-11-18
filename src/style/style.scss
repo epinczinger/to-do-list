@@ -34,10 +34,7 @@ body {
     }
 
     .card .card-title {
-        @include no-margin;
-    
+      @include no-margin;
     }
   }
-
-  
 }
