@@ -1,3 +1,4 @@
+import './style/style.scss'
 
 const content = document.querySelector('.content');
 const title = document.createElement('h1');
