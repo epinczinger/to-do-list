@@ -38,3 +38,29 @@ const project3 = new Project('Improve garden', 'Do work on the garden to build v
 export const seedTasks = [task1, task2, task3];
 export const seedProjects = [project1, project2, project3];
 
+const displayTask = (task) => {
+
+  const card = document.createElement('div');
+  card.classList.add('card');
+  
+  const title = document.createElement('h3');
+  title.classList.add('card-title');
+  title.textContent = task.title;
+
+  const body = document.createElement('p');
+  body.classList.add('card-body');
+  body.textContent = task.description;
+
+  const priority = document.createElement('strong');
+  priority.classList.add('card-body');
+  priority.textContent = task.priority;
+
+  const date = document.createElement('small');
+  date.classList.add('card-body');
+  date.textContent = task.dueDate;
+
+}
+
+const displayAllTasks = (location, taskList, taskFunction) {
+  
+}
