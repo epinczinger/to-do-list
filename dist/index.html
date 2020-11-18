@@ -6,8 +6,39 @@
     <title>Document</title>
 </head>
 <body>
-    <div class="content bg-dark">
-        
+    <h1>To-Do List</h1>
+    <div class="content-area container-fluid row">
+      <div id = "projects-column" class="content-column col-4">
+          <h3 class='column-title'>Projects</h3>
+
+          <form>
+              <label>
+                  Title:
+                  <input type='text'></input>
+              </label>
+              <label>
+                  Description:
+                  <input type='text'></input>
+              </label>
+              <label>
+                  Due Date:
+                  <input type='text'></input>
+              </label>
+              <label>
+                  Priority:
+                  <input type='text'></input>
+              </label>
+              <button class="btn btn-primary" type="button">Create Project!</button>
+          </form>
+      </div>     
+      
+      <div id = "tasks-column" class="content-column col-4">
+          <h3 class='column-title'>Tasks</h3>
+      </div>
+
+      <div id = "details-column" class="content-column col-4">
+          <h3 class='column-title'>Details</h3>
+      </div>        
     </div>
     
     <script src="main.js"></script>

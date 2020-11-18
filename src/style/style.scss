@@ -1,5 +1,36 @@
 @import '~bootstrap';
 
-.content {
- 
+@mixin text-center {
+  text-align: center;
+}
+
+@mixin no-margin {
+  margin: 0;
+}
+
+@mixin no-padding {
+  padding: 0;
+}
+
+@mixin no-margin-no-padding {
+  @include no-padding;
+  @include no-margin;
+}
+
+body {
+  min-height: 100vh;
+
+  h1 {
+    @include text-center;
+  }
+
+  .content-area {
+    @include no-margin-no-padding;
+
+    .content-column {
+      .column-title {
+        @include text-center;
+      }
+    }
+  }
 }
