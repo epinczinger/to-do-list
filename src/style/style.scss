@@ -32,5 +32,12 @@ body {
         @include text-center;
       }
     }
+
+    .card .card-title {
+        @include no-margin;
+    
+    }
   }
+
+  
 }

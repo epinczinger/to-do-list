@@ -43,31 +43,30 @@ export const displayTask = (task) => {
 
 // PROJECTS
 export const displayProject = (project) => {
+  const card = document.createElement("div");
+  card.classList.add("card", "my-2");
 
-  const card = document.createElement('div');
-  card.classList.add('card');
-
-  const title = document.createElement('h3');
-  title.classList.add('card-title');
+  const title = document.createElement("h4");
+  title.classList.add("card-title", "px-2", "py-4");
   title.textContent = project.title;
 
-  const body = document.createElement('p');
-  body.classList.add('card-body');
-  body.textContent = project.description;
+  // const body = document.createElement('p');
+  // body.classList.add('card-body');
+  // body.textContent = project.description;
 
-  const priority = document.createElement('strong');
-  priority.classList.add('card-body');
-  priority.textContent = project.priority;
+  // const priority = document.createElement('strong');
+  // priority.classList.add('card-body');
+  // priority.textContent = project.priority;
 
-  const date = document.createElement('small');
-  date.classList.add('card-body');
-  date.textContent = project.dueDate;
-
-  [title, body, priority, date].forEach(function (element) {
+  // const date = document.createElement('small');
+  // date.classList.add('card-body');
+  // date.textContent = project.dueDate;
+  // , body, priority, date
+  [title].forEach(function (element) {
     card.appendChild(element);
-  })
+  });
 
-  return card
+  return card;
 }
 
 export const populateList = (listDestination, listArray, displayFunction) => {
