@@ -1,2 +1,2 @@
 import './style/style.scss';
-import { Task, Project } from './logic';
+import { Task, Project, seedProjects, seedTasks } from './logic';
