@@ -39,7 +39,7 @@
       
       <div id = "tasks-column" class="content-column col-8">
           <h3 class='column-title'>Tasks</h3>
-          <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#task-form" aria-expanded="false" aria-controls="task-form">
+          <button class="btn btn-primary" id='display-task-form-btn' type="button" data-toggle="collapse" data-target="#task-form" aria-expanded="false" aria-controls="task-form">
             Add a new task
           </button>
         <form class='collapse' id='task-form'>
@@ -70,7 +70,7 @@
                     <option>Medium</option>
                     <option>High</option>
                 </select>
-               </div>
+            </div>
             <button class="btn btn-primary" type="button">Create Task!</button>
         </form>
         <div class="task-list"></div>

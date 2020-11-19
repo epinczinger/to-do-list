@@ -88,18 +88,8 @@ export const displayProject = (project) => {
     let tasksColumn = document.querySelector('.task-list');
     populateList(tasksColumn, project.tasks, displayTask);
 
-    let previousSelection = document.getElementsByClassName('selected-project');\
-
-    console.log (typeof )
+    localStorage.setItem('selected project', JSON.stringify(project));
     
-    // previousSelection.forEach( function(element) {
-    //   element.classList.remove('selected-project');
-    // });
-
-
-    previousSelection.forEach( element => element.classList.remove('selected-project'));
-    this.classList.add('selected-project');
-
     // GIVE EACH CARD A DATA-ATTRIBUTE ------------------------------------------------------------ DONE
     // WHEN SELECTED, GIVE THE CARD A 'SELECTED CLASS'   ------------------------------------------ DONE
     // CREATE A NEW PROJECT. 

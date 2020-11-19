@@ -90,16 +90,46 @@ function processNewTaskForm(form) {
     newTaskPriority
   );
 
-  // Now that we've created the task, push it into the project['selected project'].tasks array
 
-  // Get the current project list
-  const projectsList = JSON.parse(localStorage.getItem('projects'));
+  let projectsList = JSON.parse(localStorage.getItem('projects'));
+  let selectedProject = JSON.parse(localStorage.getItem("selected project"));
+    
 
-  // Locate the currently selected project.
+  let selectedProjectTaskList = selectedProject.tasks || []; 
 
+  selectedProjectTaskList.push(newTask);
+
+  let selectedProjectIndex;
+
+  console.log(projectsList[2]);
+  console.log(selectedProjectIndex);
+
+  for (let i = 0; i < projectsList.length ; i += 1) {
+    if (projectsList[i].title == selectedProject.title ) {
+     selectedProjectIndex = i;
+    }
+  }
+
+  selectedProject.tasks = selectedProjectTaskList;
   
+  projectsList[selectedProjectIndex].tasks = selectedProjectTaskList;
 
-  const tasksList = JSON.parse(localStorage.getItem('projects')) || [];
-  projectsList.push(newProject);
   localStorage.setItem('projects', JSON.stringify(projectsList));
+
+  localStorage.setItem('selected project', JSON.stringify(selectedProject));
+
 }
+
+taskFormSubmitButton.addEventListener("click", function (event) {
+  processNewTaskForm(this.parentElement);
+
+
+  let tasksList = JSON.parse(localStorage.getItem("selected project")).tasks || [];
+  let tasksColumn = document.querySelector(".task-list");
+
+  populateList(tasksColumn, tasksList, displayTask);
+
+  let displayBtn = document.getElementById("display-task-form-btn");
+
+  displayBtn.click();
+});
