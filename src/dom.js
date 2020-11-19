@@ -1,5 +1,8 @@
 import { Task, Project } from './logic';
+import 'bootstrap/js/dist/collapse';
 
+
+// SEED DATA - DELETE LATER
 const task1 = new Task('Shopings', 'buy food for dinner', 'tomorrow', 'high');
 const task2 = new Task('Fix car', 'fix flat wheel', 'today', 'high');
 const task3 = new Task('Studying', 'read about physics', 'this week', 'medium');
@@ -26,6 +29,26 @@ const project3 = new Project(
 export const seedTasks = [task1, task2, task3];
 export const seedProjects = [project1, project2, project3];
 
+// Function that will reveal card details on click.
+// function expandCard(card) {
+//   // We've been passed the card.
+
+//   let cardBody = card.getElementsByClassName('card-body');
+
+//   console.log(cardBody);
+
+//   // cardBody.classList.toggle('d-none');
+
+//   // Now, query to find the hidden section.
+
+//     // How will we have the body be hidden to start with?
+
+//   // Open it.
+  
+// }
+
+
+
 // TASKS
 export const displayTask = (task) => {
   const card = document.createElement('div');
@@ -35,20 +58,20 @@ export const displayTask = (task) => {
   title.classList.add('card-title', 'px-2', 'py-4');
   title.textContent = task.title;
 
-  // const body = document.createElement('p');
-  // body.classList.add('card-body');
-  // body.textContent = task.description;
+  // CONTENT WE WANT TO BE HIDDEN AT FIRST
+  const body = document.createElement('p');
+  body.classList.add('card-body');
+  body.textContent = task.description;
 
-  // const priority = document.createElement('strong');
-  // priority.classList.add('card-body');
-  // priority.textContent = task.priority;
+  const priority = document.createElement('strong');
+  priority.classList.add('card-body');
+  priority.textContent = task.priority;
 
-  // const date = document.createElement('small');
-  // date.classList.add('card-body');
-  // date.textContent = task.dueDate;
-  // , body, priority, date
+  const date = document.createElement('small');
+  date.classList.add('card-body');
+  date.textContent = task.dueDate;
 
-  [title].forEach((element) => {
+  [title, body, priority, date].forEach((element) => {
     card.appendChild(element);
   });
 
@@ -64,6 +87,7 @@ export const displayProject = (project) => {
   title.classList.add('card-title', 'px-2', 'py-4');
   title.textContent = project.title;
 
+  // CONTENT WE WANT TO BE HIDDEN AT FIRST
   // const body = document.createElement('p');
   // body.classList.add('card-body');
   // body.textContent = project.description;

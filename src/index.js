@@ -10,5 +10,4 @@ const tasksColumn = document.querySelector('.task-list');
 const projectsColumn = document.querySelector('.project-list');
 
 populateList(tasksColumn, seedTasks, displayTask);
-
 populateList(projectsColumn, seedProjects, displayProject);
