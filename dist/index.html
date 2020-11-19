@@ -10,7 +10,10 @@
     <div class="content-area container-fluid row">
       <div id = "projects-column" class="content-column col-4">
           <h3 class='column-title'>Projects</h3>
-          <form id='project-form'>
+          <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#project-form" aria-expanded="false" aria-controls="project-form">
+            Add a new project
+          </button>
+          <form class="collapse" id='project-form'>
               <label>
                   Title:
                   <input type='text' id='input-title'></input>
@@ -34,7 +37,10 @@
       
       <div id = "tasks-column" class="content-column col-4">
           <h3 class='column-title'>Tasks</h3>
-        <form id='project-form'>
+          <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#task-form" aria-expanded="false" aria-controls="task-form">
+            Add a new task
+          </button>
+        <form class='collapse' id='task-form'>
             <label>
                 Title:
                 <input type='text' id='input-title'></input>
