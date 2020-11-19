@@ -44,9 +44,8 @@ export const seedProjects = [project1, project2, project3];
 //     // How will we have the body be hidden to start with?
 
 //   // Open it.
-  
-// }
 
+// }
 
 
 // TASKS

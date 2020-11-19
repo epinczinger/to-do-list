@@ -24,39 +24,27 @@ const taskFormSubmitButton = taskForm.getElementsByClassName('btn', 'btn-primary
 const projectFormSubmitButton = projectForm.getElementsByClassName('btn', 'btn-primary')[0];
 
 function processForm(form) {
-  // Take each input from the form and use it to create a new project.
-  let newProjectTitle = document.getElementById("project-input-title").value;
-  let newProjectDescription = document.getElementById(
-    "project-input-description"
+  const newProjectTitle = document.getElementById('project-input-title').value;
+  const newProjectDescription = document.getElementById(
+    'project-input-description',
   ).value;
-  let newProjectDueDate = document.getElementById("project-input-date").value;
+  const newProjectDueDate = document.getElementById('project-input-date').value;
 
-  document.getElementById("project-input-title").value = "";
-  document.getElementById("project-input-description").value = "";
-  document.getElementById("project-input-date").value = "";
+  document.getElementById('project-input-title').value = '';
+  document.getElementById('project-input-description').value = '';
+  document.getElementById('project-input-date').value = '';
 
-  let newProject = new Project(
+  const newProject = new Project(
     newProjectTitle,
     newProjectDescription,
-    newProjectDueDate
+    newProjectDueDate,
   );
 
-  // Acces projects saved on local storage and parse them into JS object and save into projectList
-
-  let projectsList = JSON.parse(localStorage.getItem("projects")) || [];
-
-  // Push new project into projectsList
-
+  const projectsList = JSON.parse(localStorage.getItem('projects')) || [];
   projectsList.push(newProject);
-
-  // And convert it back the projectsList using Stringify
-
-  // Set localStorage projectsList to the new list with added project
-  
-  localStorage.setItem("projects", JSON.stringify(projectsList));
+  localStorage.setItem('projects', JSON.stringify(projectsList));
 }
 
-
-projectFormSubmitButton.addEventListener('click', function(event) {
-  processForm(this.parentElement)
+projectFormSubmitButton.addEventListener('click', function (event) {
+  processForm(this.parentElement);
 });
