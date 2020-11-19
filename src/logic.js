@@ -25,31 +25,37 @@ const projectFormSubmitButton = projectForm.getElementsByClassName('btn', 'btn-p
 
 function processForm(form) {
   // Take each input from the form and use it to create a new project.
-  let newProjectTitle = document.getElementById('project-input-title').value;
-  let newProjectDescription = document.getElementById('project-input-description').value;
-  let newProjectDueDate = document.getElementById('project-input-date').value;
+  let newProjectTitle = document.getElementById("project-input-title").value;
+  let newProjectDescription = document.getElementById(
+    "project-input-description"
+  ).value;
+  let newProjectDueDate = document.getElementById("project-input-date").value;
 
-  document.getElementById('project-input-title').value = '';
-  document.getElementById('project-input-description').value = '';
-  document.getElementById('project-input-date').value = '';
+  document.getElementById("project-input-title").value = "";
+  document.getElementById("project-input-description").value = "";
+  document.getElementById("project-input-date").value = "";
 
-  let newProject = new Project(newProjectTitle, newProjectDescription, newProjectDueDate);
+  let newProject = new Project(
+    newProjectTitle,
+    newProjectDescription,
+    newProjectDueDate
+  );
+
+  // Acces projects saved on local storage and parse them into JS object and save into projectList
+
+  let projectsList = JSON.parse(localStorage.getItem("projects")) || [];
+
+  // Push new project into projectsList
+
+  projectsList.push(newProject);
+
+  // And convert it back the projectsList using Stringify
+
+  // Set localStorage projectsList to the new list with added project
   
-  
-  // console.log(newProject.title);
-
-  // We need to convert an object into a string to save it into localStorage
-
-  // And convert it back
-
-  localStorage.setItem('newProject', 'string');
-
-  let retrievedProject = localStorage.getItem('newProject');
-
-  console.log(retrievedProject);
-
-  // console.log(newProject.title);
+  localStorage.setItem("projects", JSON.stringify(projectsList));
 }
+
 
 projectFormSubmitButton.addEventListener('click', function(event) {
   processForm(this.parentElement)
