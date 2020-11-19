@@ -31,6 +31,10 @@ body {
       .column-title {
         @include text-center;
       }
+
+      .selected-project {
+        background: red;
+      }
     }
 
     .card .card-title {

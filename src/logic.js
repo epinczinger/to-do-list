@@ -35,7 +35,7 @@ const taskForm = document.getElementById('task-form');
 const taskFormSubmitButton = taskForm.getElementsByClassName('btn', 'btn-primary')[0];
 const projectFormSubmitButton = projectForm.getElementsByClassName('btn', 'btn-primary')[0];
 
-function processForm(form) {
+function processNewProjectForm(form) {
   const newProjectTitle = document.getElementById('project-input-title').value;
   const newProjectDescription = document.getElementById(
     'project-input-description',
@@ -58,7 +58,7 @@ function processForm(form) {
 }
 
 projectFormSubmitButton.addEventListener('click', function (event) {
-  processForm(this.parentElement);
+  processNewProjectForm(this.parentElement);
 
   let projectsList = JSON.parse(localStorage.getItem("projects")) || [];
   let projectsColumn = document.querySelector(".project-list");
@@ -70,3 +70,36 @@ projectFormSubmitButton.addEventListener('click', function (event) {
   displayBtn.click();
 });
 
+function processNewTaskForm(form) {
+  const newTaskTitle = document.getElementById('task-input-title').value;
+  const newTaskDescription = document.getElementById(
+    'task-input-description',
+  ).value;
+  const newTaskDueDate = document.getElementById('task-input-date').value;
+  const newTaskPriority = document.getElementById('task-input-priority').value;
+
+  document.getElementById('task-input-title').value = '';
+  document.getElementById('task-input-description').value = '';
+  document.getElementById('task-input-date').value = '';
+  document.getElementById('task-input-priority').value = 'Low';
+
+  const newTask = new Task(
+    newTaskTitle,
+    newTaskDescription,
+    newTaskDueDate,
+    newTaskPriority
+  );
+
+  // Now that we've created the task, push it into the project['selected project'].tasks array
+
+  // Get the current project list
+  const projectsList = JSON.parse(localStorage.getItem('projects'));
+
+  // Locate the currently selected project.
+
+  
+
+  const tasksList = JSON.parse(localStorage.getItem('projects')) || [];
+  projectsList.push(newProject);
+  localStorage.setItem('projects', JSON.stringify(projectsList));
+}

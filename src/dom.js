@@ -53,6 +53,11 @@ export const displayTask = (task) => {
 export const displayProject = (project) => {
   const card = document.createElement('div');
   card.classList.add('card', 'my-2');
+  
+  let projectList = JSON.parse(localStorage.getItem('projects'));
+  let titleList = projectList.map(project => project.title);
+  let uniqueIdentifier = titleList.indexOf(project.title);
+  card.setAttribute('data-attribute', uniqueIdentifier);
 
   const title = document.createElement('h4');
   title.classList.add('card-title', 'px-2', 'py-4');
@@ -82,6 +87,24 @@ export const displayProject = (project) => {
   card.addEventListener('click', function(event) {
     let tasksColumn = document.querySelector('.task-list');
     populateList(tasksColumn, project.tasks, displayTask);
+
+    let previousSelection = document.getElementsByClassName('selected-project');\
+
+    console.log (typeof )
+    
+    // previousSelection.forEach( function(element) {
+    //   element.classList.remove('selected-project');
+    // });
+
+
+    previousSelection.forEach( element => element.classList.remove('selected-project'));
+    this.classList.add('selected-project');
+
+    // GIVE EACH CARD A DATA-ATTRIBUTE ------------------------------------------------------------ DONE
+    // WHEN SELECTED, GIVE THE CARD A 'SELECTED CLASS'   ------------------------------------------ DONE
+    // CREATE A NEW PROJECT. 
+    // QUERYSELECTOR('.SELECTED'). 
+    // TAKE THAT ELEMENT'S DATA-ATTRIBUTE AND USE IT TO LOCATE THE PROJECT IN THE PROJECTS ARRAY.
   });
 
 
