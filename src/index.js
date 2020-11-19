@@ -10,4 +10,7 @@ const tasksColumn = document.querySelector('.task-list');
 const projectsColumn = document.querySelector('.project-list');
 
 populateList(tasksColumn, seedTasks, displayTask);
-populateList(projectsColumn, seedProjects, displayProject);
+
+let projectsList = JSON.parse(localStorage.getItem("projects")) || [];
+
+populateList(projectsColumn, projectsList, displayProject);
