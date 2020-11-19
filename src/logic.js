@@ -19,6 +19,6 @@ export function Project(title, description, dueDate, priority, tasks = []) {
 
 const projectForm = document.getElementById('project-form');
 const inputTitle = document.getElementById('input-title');
-const inputDescription = document.getElementById("input-description");
-const inputDate = document.getElementById("input-date");
-const inputPriority = document.getElementById("input-priority");
+const inputDescription = document.getElementById('input-description');
+const inputDate = document.getElementById('input-date');
+const inputPriority = document.getElementById('input-priority');
