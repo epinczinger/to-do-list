@@ -14,22 +14,24 @@
             Add a new project
           </button>
           <form class="collapse" id='project-form'>
-              <label>
+              <div class="form-group">
+                <label>
                   Title:
-                  <input type='text' id='input-title'></input>
-              </label>
-              <label>
+                </label>
+                 <input type='text' class="form-control" id='project-input-title'></input>
+              </div>
+              <div class="form-group">
+                <label>
                   Description:
-                  <input type='text' id='input-description'></input>
-              </label>
-              <label>
+                </label>
+                <input type='text' class="form-control" id='project-input-description'></input>
+              </div>
+              <div class="form-group">
+                <label>
                   Due Date:
-                  <input type='text' id='input-date'></input>
-              </label>
-              <label>
-                  Priority:
-                  <input type='text' id='input-priority'></input>
-              </label>
+                </label>
+                <input type='text' class="form-control" id='project-input-date'></input>
+              </div>
               <button class="btn btn-primary" type="button">Create Project!</button>
           </form>
         <div class="project-list"></div>
@@ -41,23 +43,35 @@
             Add a new task
           </button>
         <form class='collapse' id='task-form'>
-            <label>
-                Title:
-                <input type='text' id='input-title'></input>
-            </label>
-            <label>
-                Description:
-                <input type='text' id='input-description'></input>
-            </label>
-            <label>
-                Due Date:
-                <input type='text' id='input-date'></input>
-            </label>
-            <label>
-                Priority:
-                <input type='text' id='input-priority'></input>
-            </label>
-            <button class="btn btn-primary" type="button">Create Project!</button>
+            <div class="form-group">
+                <label>
+                  Title:
+                </label>
+                 <input type='text' class="form-control" id='task-input-title'></input>
+              </div>
+              <div class="form-group">
+                <label>
+                  Description:
+                </label>
+                <input type='text' class="form-control" id='task-input-description'></input>
+              </div>
+              <div class="form-group">
+                <label>
+                  Due Date:
+                </label>
+                <input type='text' class="form-control" id='task-input-date'></input>
+              </div>
+            <div class="form-group">
+                <label>
+                  Priority:
+                </label>
+                <select class="form-control" id="task-input-priority">
+                    <option>Low</option>
+                    <option>Medium</option>
+                    <option>High</option>
+                </select>
+               </div>
+            <button class="btn btn-primary" type="button">Create Task!</button>
         </form>
         <div class="task-list"></div>
 
