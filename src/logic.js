@@ -1,3 +1,9 @@
+import {
+  displayProject,
+  populateList,
+  displayTask,
+} from "./dom";
+
 export function Task(title, description, dueDate, priority) {
   this.title = title;
   this.description = description;
@@ -47,4 +53,14 @@ function processForm(form) {
 
 projectFormSubmitButton.addEventListener('click', function (event) {
   processForm(this.parentElement);
+
+  let projectsList = JSON.parse(localStorage.getItem("projects")) || [];
+  let projectsColumn = document.querySelector(".project-list");
+
+  populateList(projectsColumn, projectsList, displayProject);
+
+  let displayBtn = document.getElementById('display-form-btn');
+
+  displayBtn.click();
 });
+

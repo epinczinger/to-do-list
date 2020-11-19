@@ -106,8 +106,13 @@ export const displayProject = (project) => {
   return card;
 };
 
+
 export const populateList = (listDestination, listArray, displayFunction) => {
+
+  listDestination.innerHTML = "";
+  
   for (let i = 0; i < listArray.length; i += 1) {
     listDestination.appendChild(displayFunction(listArray[i]));
   }
+
 };
