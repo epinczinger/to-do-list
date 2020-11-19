@@ -9,8 +9,6 @@ const testDiv = document.createElement('div');
 const tasksColumn = document.querySelector('.task-list');
 const projectsColumn = document.querySelector('.project-list');
 
-populateList(tasksColumn, seedTasks, displayTask);
-
 const projectsList = JSON.parse(localStorage.getItem('projects')) || [];
 
 populateList(projectsColumn, projectsList, displayProject);

@@ -4,6 +4,12 @@ import {
   displayTask,
 } from "./dom";
 
+const task1 = new Task('Shopings', 'buy food for dinner', 'tomorrow', 'high');
+const task2 = new Task('Fix car', 'fix flat wheel', 'today', 'high');
+const task3 = new Task('Studying', 'read about physics', 'this week', 'medium');
+
+const seedTasks = [task1, task2, task3];
+
 export function Task(title, description, dueDate, priority) {
   this.title = title;
   this.description = description;
@@ -12,12 +18,12 @@ export function Task(title, description, dueDate, priority) {
   this.complete = false;
 }
 
-export function Project(title, description, dueDate, priority, tasks = []) {
+export function Project(title, description, dueDate, priority) {
   this.title = title;
   this.description = description;
   this.dueDate = dueDate;
   this.priority = priority;
-  this.tasks = tasks;
+  this.tasks = seedTasks;
   this.addTask = (newTask) => {
     this.tasks.push(newTask);
   };
