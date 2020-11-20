@@ -1,7 +1,7 @@
-export default function renderEditTaskForm() {
+export default function renderEditTaskForm(task) {
   let form = document.createElement("form");
   form.classList.add("collapse");
-  // form.id = `edit-form-project-`;
+  form.id = 'edit-form-task';
 
   let titleFormGroup = document.createElement("div");
   titleFormGroup.classList.add("form-group");
@@ -9,8 +9,9 @@ export default function renderEditTaskForm() {
   titleLabel.innerText = "Title:";
   let titleInput = document.createElement("input");
   titleInput.type = "text";
+  titleInput.value = task.title;
   titleInput.classList.add("form-control");
-  //
+
   titleFormGroup.appendChild(titleLabel);
   titleFormGroup.appendChild(titleInput);
 
@@ -21,8 +22,8 @@ export default function renderEditTaskForm() {
   let descriptionInput = document.createElement("input");
   descriptionInput.type = "text";
   descriptionInput.classList.add("form-control");
-  //  descriptionInput.id = `project-${uniqueIdentifier}-input-description`;
-  //  descriptionInput.value = project.description;
+  descriptionInput.id = `task-input-description`;
+  descriptionInput.value = task.description;
   descriptionFormGroup.appendChild(descriptionLabel);
   descriptionFormGroup.appendChild(descriptionInput);
 
@@ -33,43 +34,41 @@ export default function renderEditTaskForm() {
   let dueDateInput = document.createElement("input");
   dueDateInput.type = "date";
   dueDateInput.classList.add("form-control");
-  // dueDateInput.id = `project-${uniqueIdentifier}-input-date`;
-  // dueDateInput.value = project.dueDate;
+  dueDateInput.id = `task-input-date`;
+  dueDateInput.value = task.dueDate;
   dueDateFormGroup.appendChild(dueDateLabel);
   dueDateFormGroup.appendChild(dueDateInput);
+  
+  let priorityFormGroup = document.createElement("div");
+  priorityFormGroup.classList.add("form-group");
+  let priorityLabel = document.createElement("label");
+  priorityLabel.innerText = 'Priority';
 
-
-    let priorityFormGroup = document.createElement("div");
-    priorityFormGroup.classList.add("form-group");
-    let priorityLabel = document.createElement("label");
-    priority.innerText = 'Priority';
-    let selectPriority = document.createElement('select');
-    
-    
-
-  <div class="form-group">
-    <label>Priority:</label>
-    <select class="form-control" id="task-input-priority">
-      <option>Low</option>
-      <option>Medium</option>
-      <option>High</option>
-    </select>
-  </div>;
-
-
-
-
-
+  let priorityInput = document.createElement('select');
+  priorityInput.classList.add('form-control');
+  let optionLow = document.createElement('option');
+  optionLow.textContent = 'Low';
+  let optionMedium = document.createElement('option');
+  optionMedium.textContent = 'Medium';
+  let optionHigh = document.createElement('option');
+  optionHigh.textContent = 'High';
+  priorityInput.appendChild(optionLow);
+  priorityInput.appendChild(optionMedium);
+  priorityInput.appendChild(optionHigh);
+  
+  priorityFormGroup.appendChild(priorityLabel);
+  priorityFormGroup.appendChild(priorityInput);
 
   let submitButton = document.createElement("button");
   submitButton.classList.add("btn", "btn-primary");
   submitButton.type = "button";
   submitButton.innerText = "Make Changes";
-  submitButton.addEventListener("click", function (event) {});
+  // submitButton.addEventListener("click", function (event) {});
 
   form.appendChild(titleFormGroup);
   form.appendChild(descriptionFormGroup);
   form.appendChild(dueDateFormGroup);
+  form.appendChild(priorityFormGroup);
   form.appendChild(submitButton);
 
   return form;

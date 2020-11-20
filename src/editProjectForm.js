@@ -1,4 +1,3 @@
-
 export default function renderEditForm(project, uniqueIdentifier) {
 
   let form = document.createElement('form');

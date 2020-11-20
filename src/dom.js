@@ -20,17 +20,16 @@ export const displayTask = (task) => {
   const editBtn = document.createElement("button");
   editBtn.classList.add("btn", "btn-secondary");
   editBtn.innerText = "Edit Task";
-
-  editBtn.addEventListener('click', function() {
-    renderEditTaskForm();
-  });
-
+  editBtn.setAttribute('type', 'button');
+  editBtn.setAttribute('data-toggle', 'collapse');
+  editBtn.setAttribute('data-target', `#edit-form-task`);
+  
+  let form = renderEditTaskForm(task);
+  
   deleteBtn.addEventListener('click', function() {
     deleteTask(task);
-    
     let tasksColumn = document.querySelector(".task-list");
     let selectedProjectTasks = JSON.parse(localStorage.getItem('selected project')).tasks;
-
     populateList(tasksColumn, selectedProjectTasks, displayTask);
   });
 
@@ -47,7 +46,7 @@ export const displayTask = (task) => {
   date.classList.add('card-body');
   date.textContent = task.dueDate;
 
-  [title, body, priority, date, deleteBtn, editBtn].forEach((element) => {
+  [title, body, priority, date, deleteBtn, editBtn, form].forEach((element) => {
     card.appendChild(element);
   });
 

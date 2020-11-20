@@ -111,6 +111,6 @@ taskFormSubmitButton.addEventListener("click", function (event) {
   let tasksColumn = document.querySelector(".task-list");
 
   populateList(tasksColumn, tasksList, displayTask);
-  let displayBtn = document.getElementById("display-task-form-btn");
-  displayBtn.click();
+  // let displayBtn = document.getElementById("display-task-form-btn");
+  // displayBtn.click();
 });
