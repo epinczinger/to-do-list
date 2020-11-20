@@ -63,6 +63,23 @@ export const displayProject = (project) => {
   title.classList.add('card-title', 'px-2', 'py-4');
   title.textContent = project.title;
 
+  const deleteBtn = document.createElement('button');
+  deleteBtn.classList.add("btn", "btn-secondary");
+  deleteBtn.innerText = "Delete Project";
+
+  deleteBtn.addEventListener("click", function () {
+    deleteProject(project);
+
+  const projectsColumn = document.querySelector(".project-list");
+  const projectsList = JSON.parse(localStorage.getItem("projects")) || [];
+
+    populateList(projectsColumn, projectsList, displayProject);
+  });
+
+  const editBtn = document.createElement("button");
+  editBtn.classList.add("btn", "btn-secondary");
+  editBtn.innerText = "Edit Project";
+
   // CONTENT WE WANT TO BE HIDDEN AT FIRST
   // const body = document.createElement('p');
   // body.classList.add('card-body');
@@ -85,20 +102,15 @@ export const displayProject = (project) => {
   // displayFunction = displayTask
 
   card.addEventListener('click', function(event) {
-    let tasksColumn = document.querySelector('.task-list');
-    populateList(tasksColumn, project.tasks, displayTask);
+    if (event.target != deleteBtn && event.target != editBtn) {
+      let tasksColumn = document.querySelector(".task-list");
+      populateList(tasksColumn, project.tasks, displayTask);
 
-    localStorage.setItem('selected project', JSON.stringify(project));
-    
-    // GIVE EACH CARD A DATA-ATTRIBUTE ------------------------------------------------------------ DONE
-    // WHEN SELECTED, GIVE THE CARD A 'SELECTED CLASS'   ------------------------------------------ DONE
-    // CREATE A NEW PROJECT. 
-    // QUERYSELECTOR('.SELECTED'). 
-    // TAKE THAT ELEMENT'S DATA-ATTRIBUTE AND USE IT TO LOCATE THE PROJECT IN THE PROJECTS ARRAY.
+      localStorage.setItem("selected project", JSON.stringify(project));
+    }
   });
 
-
-  [title].forEach((element) => {
+  [title, deleteBtn, editBtn].forEach((element) => {
     card.appendChild(element);
   });
 
@@ -113,5 +125,19 @@ export const populateList = (listDestination, listArray, displayFunction) => {
   for (let i = 0; i < listArray.length; i += 1) {
     listDestination.appendChild(displayFunction(listArray[i]));
   }
+
+};
+
+const deleteProject = (project) => {
+
+
+  let projectsArray = JSON.parse(localStorage.getItem('projects'));
+
+  let index = projectsArray.findIndex(projectElement => projectElement.title == project.title);
+
+  projectsArray.splice(index, 1);
+
+  localStorage.setItem('projects', JSON.stringify(projectsArray));
+
 
 };
