@@ -1,5 +1,6 @@
 import { Task, Project } from './logic';
 import 'bootstrap/js/dist/collapse';
+import renderEditForm from './editProjectForm';
 
 // TASKS
 export const displayTask = (task) => {
@@ -21,7 +22,6 @@ export const displayTask = (task) => {
     let selectedProjectTasks = JSON.parse(localStorage.getItem('selected project')).tasks;
 
     populateList(tasksColumn, selectedProjectTasks, displayTask);
-
   });
 
   // CONTENT WE WANT TO BE HIDDEN AT FIRST
@@ -78,44 +78,7 @@ export const displayProject = (project) => {
   editBtn.setAttribute('data-toggle', 'collapse');
   editBtn.setAttribute('data-target', `#edit-form-project-${uniqueIdentifier}`);
 
-  const editForm = `
-  <form class="collapse" id="edit-form-project-${uniqueIdentifier}">
-    <div class="form-group">
-      <label>
-        Title:
-                </label>
-      <input 
-        type='text' 
-        class="form-control" 
-        id='project-${uniqueIdentifier}-input-title'
-        value='${project.title ? project.title : ''}'
-        ></input>
-    </div>
-    <div class="form-group">
-      <label>
-        Description:
-                </label>
-      <input 
-        type='text' 
-        class="form-control" 
-        id='project-${uniqueIdentifier}-input-description'
-        value='${project.description ? project.description : ''}'
-        ></input>
-    </div>
-    <div class="form-group">
-      <label>
-        Due Date:
-                </label>
-      <input 
-        type='text' 
-        class="form-control" 
-        id='project-${uniqueIdentifier}-input-date'
-        value='${project.date ? project.date : ''}'
-        </input>
-    </div>
-    <button class="btn btn-primary" type="button">Create Project!</button>
-  </form>
-  `
+  let form = renderEditForm(project, uniqueIdentifier);
 
   // CONTENT WE WANT TO BE HIDDEN AT FIRST
   // const body = document.createElement('p');
@@ -139,19 +102,16 @@ export const displayProject = (project) => {
   // displayFunction = displayTask
 
   card.addEventListener('click', function(event) {
-    if (event.target != deleteBtn && event.target != editBtn) {
+    if (event.target.tagName != 'BUTTON') {
       let tasksColumn = document.querySelector(".task-list");
       populateList(tasksColumn, project.tasks, displayTask);
-
       localStorage.setItem("selected project", JSON.stringify(project));
     }
   });
 
-  [title, deleteBtn, editBtn].forEach((element) => {
+  [title, deleteBtn, editBtn, form].forEach((element) => {
     card.appendChild(element);
   });
-
-  editBtn.insertAdjacentHTML('afterend', editForm);
 
   return card;
 };
@@ -208,4 +168,8 @@ const deleteTask = (task) => {
 
   localStorage.setItem('projects', JSON.stringify(projects));
 
+};
+
+export const editProject = (projectIndex) => {
+  console.log('hey!')
 };
