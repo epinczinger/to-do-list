@@ -143,13 +143,22 @@ export const populateList = (listDestination, listArray, displayFunction) => {
 };
 
 const deleteProject = (project) => {
-
   let projectsArray = JSON.parse(localStorage.getItem('projects'));
   let index = projectsArray.findIndex(projectElement => projectElement.title == project.title);
 
+  let selectedProject = JSON.parse(localStorage.getItem('selected project'));
+  if (selectedProject.title == projectsArray[index].title) {
+    localStorage.setItem('selected project', JSON.stringify([]));
+
+    // If the removed project was previously selected, remove the tasks from the task column;
+    let tasksColumn = document.querySelector(".task-list");
+    let tasks = [];
+    populateList(tasksColumn, tasks, displayTask);
+  }
+
+  // Removing the project in the projects array is already implemented.
   projectsArray.splice(index, 1);
   localStorage.setItem('projects', JSON.stringify(projectsArray));
-
 };
 
 const deleteTask = (task) => {
