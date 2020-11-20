@@ -1,6 +1,6 @@
 import 'bootstrap/js/dist/collapse';
 import './style/style.scss';
-import { Task, Project } from './logic';
+
 import {
   seedTasks,
   seedProjects,

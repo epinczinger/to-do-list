@@ -1,7 +1,5 @@
-import { Project } from "./logic";
 
 export default function renderEditForm(project, uniqueIdentifier) {
-  console.log('form rendered!')
 
   let form = document.createElement('form');
   form.classList.add('collapse');

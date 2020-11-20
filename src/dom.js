@@ -1,6 +1,8 @@
 import { Task, Project } from './logic';
 import 'bootstrap/js/dist/collapse';
-import renderEditForm from './editProjectForm';
+import renderEditProjectForm from './editProjectForm';
+import renderEditTaskForm from "./editTaskForm";
+
 
 // TASKS
 export const displayTask = (task) => {
@@ -14,6 +16,14 @@ export const displayTask = (task) => {
   const deleteBtn = document.createElement('button');
   deleteBtn.classList.add('btn', 'btn-secondary');
   deleteBtn.innerText = 'Delete Task'
+
+  const editBtn = document.createElement("button");
+  editBtn.classList.add("btn", "btn-secondary");
+  editBtn.innerText = "Edit Task";
+
+  editBtn.addEventListener('click', function() {
+    renderEditTaskForm();
+  });
 
   deleteBtn.addEventListener('click', function() {
     deleteTask(task);
@@ -37,7 +47,7 @@ export const displayTask = (task) => {
   date.classList.add('card-body');
   date.textContent = task.dueDate;
 
-  [title, body, priority, date, deleteBtn].forEach((element) => {
+  [title, body, priority, date, deleteBtn, editBtn].forEach((element) => {
     card.appendChild(element);
   });
 
@@ -78,7 +88,7 @@ export const displayProject = (project) => {
   editBtn.setAttribute('data-toggle', 'collapse');
   editBtn.setAttribute('data-target', `#edit-form-project-${uniqueIdentifier}`);
 
-  let form = renderEditForm(project, uniqueIdentifier);
+  let form = renderEditProjectForm(project, uniqueIdentifier);
 
   // CONTENT WE WANT TO BE HIDDEN AT FIRST
   // const body = document.createElement('p');
