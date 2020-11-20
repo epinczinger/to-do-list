@@ -33,6 +33,16 @@ export const displayTask = (task) => {
   deleteBtn.classList.add('btn', 'btn-secondary');
   deleteBtn.innerText = 'Delete Task'
 
+  deleteBtn.addEventListener('click', function() {
+    deleteTask(task);
+    
+    let tasksColumn = document.querySelector(".task-list");
+    let selectedProjectTasks = JSON.parse(localStorage.getItem('selected project')).tasks;
+
+    populateList(tasksColumn, selectedProjectTasks, displayTask);
+
+  });
+
   // CONTENT WE WANT TO BE HIDDEN AT FIRST
   const body = document.createElement('p');
   body.classList.add('card-body');
@@ -74,8 +84,8 @@ export const displayProject = (project) => {
   deleteBtn.addEventListener("click", function () {
     deleteProject(project);
 
-  const projectsColumn = document.querySelector(".project-list");
-  const projectsList = JSON.parse(localStorage.getItem("projects")) || [];
+    const projectsColumn = document.querySelector(".project-list");
+    const projectsList = JSON.parse(localStorage.getItem("projects")) || [];
 
     populateList(projectsColumn, projectsList, displayProject);
   });
@@ -142,6 +152,26 @@ const deleteProject = (project) => {
 
 };
 
-const deleteTask = (project) => {
+const deleteTask = (task) => {
+
+  let selectedProject = JSON.parse(localStorage.getItem("selected project"));
+  let tasksArray = selectedProject.tasks;
+
+  let projects = JSON.parse(localStorage.getItem('projects'));
+  
+  let index = tasksArray.findIndex(
+    (taskElement) => taskElement.title == task.title
+  );
+  
+  let projectIndex = projects.findIndex((projectElement) => projectElement.title == selectedProject.title);
+
+  tasksArray.splice(index, 1);
+  projects[projectIndex].tasks = tasksArray;
+
+  selectedProject.tasks = tasksArray;
+
+  localStorage.setItem('selected project', JSON.stringify(selectedProject));
+
+  localStorage.setItem('projects', JSON.stringify(projects));
 
 };
