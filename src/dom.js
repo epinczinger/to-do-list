@@ -29,6 +29,10 @@ export const displayTask = (task) => {
   title.classList.add('card-title', 'px-2', 'py-4');
   title.textContent = task.title;
 
+  const deleteBtn = document.createElement('button');
+  deleteBtn.classList.add('btn', 'btn-secondary');
+  deleteBtn.innerText = 'Delete Task'
+
   // CONTENT WE WANT TO BE HIDDEN AT FIRST
   const body = document.createElement('p');
   body.classList.add('card-body');
@@ -42,7 +46,7 @@ export const displayTask = (task) => {
   date.classList.add('card-body');
   date.textContent = task.dueDate;
 
-  [title, body, priority, date].forEach((element) => {
+  [title, body, priority, date, deleteBtn].forEach((element) => {
     card.appendChild(element);
   });
 
@@ -130,14 +134,14 @@ export const populateList = (listDestination, listArray, displayFunction) => {
 
 const deleteProject = (project) => {
 
-
   let projectsArray = JSON.parse(localStorage.getItem('projects'));
-
   let index = projectsArray.findIndex(projectElement => projectElement.title == project.title);
 
   projectsArray.splice(index, 1);
-
   localStorage.setItem('projects', JSON.stringify(projectsArray));
 
+};
+
+const deleteTask = (project) => {
 
 };
