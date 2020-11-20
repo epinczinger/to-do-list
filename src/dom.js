@@ -1,25 +1,6 @@
 import { Task, Project } from './logic';
 import 'bootstrap/js/dist/collapse';
 
-// Function that will reveal card details on click.
-// function expandCard(card) {
-//   // We've been passed the card.
-
-//   let cardBody = card.getElementsByClassName('card-body');
-
-//   console.log(cardBody);
-
-//   // cardBody.classList.toggle('d-none');
-
-//   // Now, query to find the hidden section.
-
-//     // How will we have the body be hidden to start with?
-
-//   // Open it.
-
-// }
-
-
 // TASKS
 export const displayTask = (task) => {
   const card = document.createElement('div');
@@ -93,6 +74,48 @@ export const displayProject = (project) => {
   const editBtn = document.createElement("button");
   editBtn.classList.add("btn", "btn-secondary");
   editBtn.innerText = "Edit Project";
+  editBtn.setAttribute('type', 'button');
+  editBtn.setAttribute('data-toggle', 'collapse');
+  editBtn.setAttribute('data-target', `#edit-form-project-${uniqueIdentifier}`);
+
+  const editForm = `
+  <form class="collapse" id="edit-form-project-${uniqueIdentifier}">
+    <div class="form-group">
+      <label>
+        Title:
+                </label>
+      <input 
+        type='text' 
+        class="form-control" 
+        id='project-${uniqueIdentifier}-input-title'
+        value='${project.title ? project.title : ''}'
+        ></input>
+    </div>
+    <div class="form-group">
+      <label>
+        Description:
+                </label>
+      <input 
+        type='text' 
+        class="form-control" 
+        id='project-${uniqueIdentifier}-input-description'
+        value='${project.description ? project.description : ''}'
+        ></input>
+    </div>
+    <div class="form-group">
+      <label>
+        Due Date:
+                </label>
+      <input 
+        type='text' 
+        class="form-control" 
+        id='project-${uniqueIdentifier}-input-date'
+        value='${project.date ? project.date : ''}'
+        </input>
+    </div>
+    <button class="btn btn-primary" type="button">Create Project!</button>
+  </form>
+  `
 
   // CONTENT WE WANT TO BE HIDDEN AT FIRST
   // const body = document.createElement('p');
@@ -127,6 +150,8 @@ export const displayProject = (project) => {
   [title, deleteBtn, editBtn].forEach((element) => {
     card.appendChild(element);
   });
+
+  editBtn.insertAdjacentHTML('afterend', editForm);
 
   return card;
 };
