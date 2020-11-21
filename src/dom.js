@@ -16,15 +16,18 @@ export const displayTask = (task) => {
   const deleteBtn = document.createElement('button');
   deleteBtn.classList.add('btn', 'btn-secondary');
   deleteBtn.innerText = 'Delete Task'
-
+  
+  let selectedProjectTaskList = JSON.parse(localStorage.getItem('selected project')).tasks;
+  let taskIndex = selectedProjectTaskList.findIndex(taskElement =>  taskElement.title == task.title);
+  
   const editBtn = document.createElement("button");
   editBtn.classList.add("btn", "btn-secondary");
   editBtn.innerText = "Edit Task";
   editBtn.setAttribute('type', 'button');
   editBtn.setAttribute('data-toggle', 'collapse');
-  editBtn.setAttribute('data-target', `#edit-form-task`);
+  editBtn.setAttribute('data-target', `#edit-form-task-${taskIndex}`);
   
-  let form = renderEditTaskForm(task);
+  let form = renderEditTaskForm(task, taskIndex);
   
   deleteBtn.addEventListener('click', function() {
     deleteTask(task);

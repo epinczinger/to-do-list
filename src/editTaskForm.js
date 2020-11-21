@@ -1,7 +1,8 @@
-export default function renderEditTaskForm(task) {
+export default function renderEditTaskForm(task, taskIndex) {
   let form = document.createElement("form");
   form.classList.add("collapse");
-  form.id = 'edit-form-task';
+
+  form.id = `edit-form-task-${taskIndex}`;
 
   let titleFormGroup = document.createElement("div");
   titleFormGroup.classList.add("form-group");
