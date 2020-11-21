@@ -1,4 +1,7 @@
+import {populateList, displayProject, displayTask} from './dom';
+
 export default function renderEditTaskForm(task, taskIndex) {
+  
   let form = document.createElement("form");
   form.classList.add("collapse");
 
@@ -9,6 +12,7 @@ export default function renderEditTaskForm(task, taskIndex) {
   let titleLabel = document.createElement("label");
   titleLabel.innerText = "Title:";
   let titleInput = document.createElement("input");
+  titleInput.id = `edit-task-title-${taskIndex}`
   titleInput.type = "text";
   titleInput.value = task.title;
   titleInput.classList.add("form-control");
@@ -23,7 +27,7 @@ export default function renderEditTaskForm(task, taskIndex) {
   let descriptionInput = document.createElement("input");
   descriptionInput.type = "text";
   descriptionInput.classList.add("form-control");
-  descriptionInput.id = `task-input-description`;
+  descriptionInput.id = `edit-task-description-${taskIndex}`;
   descriptionInput.value = task.description;
   descriptionFormGroup.appendChild(descriptionLabel);
   descriptionFormGroup.appendChild(descriptionInput);
@@ -35,7 +39,7 @@ export default function renderEditTaskForm(task, taskIndex) {
   let dueDateInput = document.createElement("input");
   dueDateInput.type = "date";
   dueDateInput.classList.add("form-control");
-  dueDateInput.id = `task-input-date`;
+  dueDateInput.id = `edit-task-date-${taskIndex}`;
   dueDateInput.value = task.dueDate;
   dueDateFormGroup.appendChild(dueDateLabel);
   dueDateFormGroup.appendChild(dueDateInput);
@@ -47,6 +51,7 @@ export default function renderEditTaskForm(task, taskIndex) {
 
   let priorityInput = document.createElement('select');
   priorityInput.classList.add('form-control');
+  priorityInput.id = `edit-task-priority-${taskIndex}`;
   let optionLow = document.createElement('option');
   optionLow.textContent = 'Low';
   let optionMedium = document.createElement('option');
@@ -64,7 +69,33 @@ export default function renderEditTaskForm(task, taskIndex) {
   submitButton.classList.add("btn", "btn-primary");
   submitButton.type = "button";
   submitButton.innerText = "Make Changes";
-  // submitButton.addEventListener("click", function (event) {});
+  submitButton.addEventListener("click", function (event) {
+
+    let projectList = JSON.parse(localStorage.getItem("projects"));
+    let selectedProject = JSON.parse(localStorage.getItem("selected project"));
+    let projectIndex = projectList.findIndex(projectElement => projectElement.title == selectedProject.title); 
+
+    projectList[projectIndex].tasks[taskIndex].title = titleInput.value;
+    projectList[projectIndex].tasks[taskIndex].description = descriptionInput.value;
+    projectList[projectIndex].tasks[taskIndex].dueDate = dueDateInput.value;
+    projectList[projectIndex].tasks[taskIndex].priority = priorityInput.value;
+    
+    selectedProject.tasks[taskIndex].title = titleInput.value;
+    selectedProject.tasks[taskIndex].description = descriptionInput.value;
+    selectedProject.tasks[taskIndex].dueDate = dueDateInput.value;
+    selectedProject.tasks[taskIndex].priority = priorityInput.value;
+
+    localStorage.setItem("projects", JSON.stringify(projectList));
+    localStorage.setItem("selected project", JSON.stringify(selectedProject));
+
+    const projectsColumn = document.querySelector(".project-list");
+    const projectsList = JSON.parse(localStorage.getItem("projects")) || [];
+    populateList(projectsColumn, projectsList, displayProject);
+
+    let tasksColumn = document.querySelector(".task-list");
+    let selectedProjectTasks = JSON.parse(localStorage.getItem("selected project")).tasks;
+    populateList(tasksColumn, selectedProjectTasks, displayTask);
+  });
 
   form.appendChild(titleFormGroup);
   form.appendChild(descriptionFormGroup);
@@ -73,4 +104,4 @@ export default function renderEditTaskForm(task, taskIndex) {
   form.appendChild(submitButton);
 
   return form;
-}
+};

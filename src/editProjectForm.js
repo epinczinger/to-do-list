@@ -1,3 +1,5 @@
+import { populateList, displayProject, displayTask } from "./dom";
+
 export default function renderEditForm(project, uniqueIdentifier) {
 
   let form = document.createElement('form');
@@ -73,5 +75,5 @@ export default function renderEditForm(project, uniqueIdentifier) {
   form.appendChild(dueDateFormGroup);
   form.appendChild(submitButton);
 
-  return form
-}
+  return form;
+};
