@@ -10,36 +10,6 @@ export const populateList = (listDestination, listArray, displayFunction) => {
   }
 };
 
-export function refreshLists() {
-  const projectsColumn = document.querySelector('.project-list');
-  const projectsList = JSON.parse(localStorage.getItem('projects')) || [];
-  const tasksColumn = document.querySelector('.task-list');
-  const selectedProjectTasks = JSON.parse(
-    localStorage.getItem('selected project'),
-  ).tasks;
-  populateList(projectsColumn, projectsList, displayProject);
-  populateList(tasksColumn, selectedProjectTasks, displayTask);
-}
-
-const deleteProject = project => {
-  const projectsArray = JSON.parse(localStorage.getItem('projects'));
-  const selectedProject = JSON.parse(localStorage.getItem('selected project'));
-  const index = projectsArray.findIndex(
-    projectElement => projectElement.title === project.title,
-  );
-
-  if (selectedProject.title === projectsArray[index].title) {
-    updateLocalStorage([
-      ['selected project', JSON.stringify([])],
-    ]);
-  }
-
-  projectsArray.splice(index, 1);
-  updateLocalStorage([
-    ['projects', JSON.stringify(projectsArray)],
-  ]);
-};
-
 export const displayProject = project => {
   const projectList = JSON.parse(localStorage.getItem('projects'));
   const titleList = projectList.map(project => project.title);
@@ -51,11 +21,16 @@ export const displayProject = project => {
     eventListeners: [
       [
         'click',
-        (event) => {
+        event => {
           if (event.target.tagName !== 'BUTTON') {
             const projects = JSON.parse(localStorage.getItem('projects'));
-            const index = projects.findIndex((element) => project.title === element.title);
-            localStorage.setItem('selected project', JSON.stringify(projects[index]));
+            const index = projects.findIndex(
+              element => project.title === element.title,
+            );
+            localStorage.setItem(
+              'selected project',
+              JSON.stringify(projects[index]),
+            );
             refreshLists();
           }
         },
@@ -119,6 +94,35 @@ export const displayProject = project => {
   return card;
 };
 
+export function refreshLists() {
+  const projectsColumn = document.querySelector('.project-list');
+  const projectsList = JSON.parse(localStorage.getItem('projects')) || [];
+  const tasksColumn = document.querySelector('.task-list');
+  const selectedProjectTasks = JSON.parse(
+    localStorage.getItem('selected project'),
+  ).tasks;
+  populateList(projectsColumn, projectsList, displayProject);
+  populateList(tasksColumn, selectedProjectTasks, displayTask);
+}
+
+const deleteProject = project => {
+  const projectsArray = JSON.parse(localStorage.getItem('projects'));
+  const selectedProject = JSON.parse(localStorage.getItem('selected project'));
+  const index = projectsArray.findIndex(
+    projectElement => projectElement.title === project.title,
+  );
+
+  if (selectedProject.title === projectsArray[index].title) {
+    updateLocalStorage([
+      ['selected project', JSON.stringify([])],
+    ]);
+  }
+
+  projectsArray.splice(index, 1);
+  updateLocalStorage([
+    ['projects', JSON.stringify(projectsArray)],
+  ]);
+};
 
 export const displayTask = task => {
   const selectedProjectTaskList = JSON.parse(
