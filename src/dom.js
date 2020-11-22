@@ -10,6 +10,32 @@ export const populateList = (listDestination, listArray, displayFunction) => {
   }
 };
 
+export function refreshLists() {
+  const projectsColumn = document.querySelector('.project-list');
+  const projectsList = JSON.parse(localStorage.getItem('projects')) || [];
+  const tasksColumn = document.querySelector('.task-list');
+  const selectedProjectTasks = JSON.parse(
+    localStorage.getItem('selected project'),
+  ).tasks;
+  populateList(projectsColumn, projectsList, displayProject);
+  populateList(tasksColumn, selectedProjectTasks, displayTask);
+}
+
+const deleteProject = project => {
+  const projectsArray = JSON.parse(localStorage.getItem('projects'));
+  const selectedProject = JSON.parse(localStorage.getItem('selected project'));
+  const index = projectsArray.findIndex(
+    projectElement => projectElement.title === project.title,
+  );
+
+  if (selectedProject.title === projectsArray[index].title) {
+    updateLocalStorage([['selected project', JSON.stringify([])]]);
+  }
+
+  projectsArray.splice(index, 1);
+  updateLocalStorage([['projects', JSON.stringify(projectsArray)]]);
+};
+
 export const displayProject = project => {
   const projectList = JSON.parse(localStorage.getItem('projects'));
   const titleList = projectList.map(project => project.title);
@@ -94,33 +120,24 @@ export const displayProject = project => {
   return card;
 };
 
-export function refreshLists() {
-  const projectsColumn = document.querySelector('.project-list');
-  const projectsList = JSON.parse(localStorage.getItem('projects')) || [];
-  const tasksColumn = document.querySelector('.task-list');
-  const selectedProjectTasks = JSON.parse(
-    localStorage.getItem('selected project'),
-  ).tasks;
-  populateList(projectsColumn, projectsList, displayProject);
-  populateList(tasksColumn, selectedProjectTasks, displayTask);
-}
-
-const deleteProject = project => {
-  const projectsArray = JSON.parse(localStorage.getItem('projects'));
+const deleteTask = task => {
   const selectedProject = JSON.parse(localStorage.getItem('selected project'));
-  const index = projectsArray.findIndex(
-    projectElement => projectElement.title === project.title,
+  const projects = JSON.parse(localStorage.getItem('projects'));
+  const tasksArray = selectedProject.tasks;
+  const index = tasksArray.findIndex(
+    taskElement => taskElement.title === task.title,
+  );
+  const projectIndex = projects.findIndex(
+    projectElement => projectElement.title === selectedProject.title,
   );
 
-  if (selectedProject.title === projectsArray[index].title) {
-    updateLocalStorage([
-      ['selected project', JSON.stringify([])],
-    ]);
-  }
+  tasksArray.splice(index, 1);
+  projects[projectIndex].tasks = tasksArray;
+  selectedProject.tasks = tasksArray;
 
-  projectsArray.splice(index, 1);
   updateLocalStorage([
-    ['projects', JSON.stringify(projectsArray)],
+    ['selected project', JSON.stringify(selectedProject)],
+    ['projects', JSON.stringify(projects)],
   ]);
 };
 
@@ -184,27 +201,4 @@ export const displayTask = task => {
   card.appendChild(renderEditTaskForm(task, taskIndex));
 
   return card;
-};
-
-const deleteTask = task => {
-  const selectedProject = JSON.parse(localStorage.getItem('selected project'));
-  const projects = JSON.parse(localStorage.getItem('projects'));
-  const tasksArray = selectedProject.tasks;
-  const index = tasksArray.findIndex(
-    taskElement => taskElement.title === task.title,
-  );
-  const projectIndex = projects.findIndex(
-    projectElement => projectElement.title === selectedProject.title,
-  );
-
-  tasksArray.splice(index, 1);
-  projects[projectIndex].tasks = tasksArray;
-  selectedProject.tasks = tasksArray;
-
-  updateLocalStorage(
-    [
-      ['selected project', JSON.stringify(selectedProject)],
-      ['projects', JSON.stringify(projects)],
-    ],
-  );
 };
