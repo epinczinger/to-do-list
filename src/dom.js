@@ -84,39 +84,59 @@ export const displayTask = task => {
 };
 
 export const displayProject = project => {
-  const card = document.createElement("div");
-  card.classList.add("card", "my-2");
-
   const projectList = JSON.parse(localStorage.getItem("projects"));
   const titleList = projectList.map(project => project.title);
   const uniqueIdentifier = titleList.indexOf(project.title);
-  card.setAttribute("data-attribute", uniqueIdentifier);
 
-  const title = document.createElement("h4");
-  title.classList.add("card-title", "px-2", "py-4");
-  title.textContent = project.title;
-
-  const deleteBtn = document.createElement("button");
-  deleteBtn.classList.add("btn", "btn-secondary");
-  deleteBtn.innerText = "Delete Project";
-
-  deleteBtn.addEventListener("click", () => {
-    deleteProject(project);
-
-    const projectsColumn = document.querySelector(".project-list");
-    const projectsList = JSON.parse(localStorage.getItem("projects")) || [];
-
-    populateList(projectsColumn, projectsList, displayProject);
+  let card = createContent({
+    element: 'div',
+    classList: ['card', 'my-2'],
+    eventListeners: [
+      [
+        'click',
+        (event) => {
+          if (event.target.tagName !== "BUTTON") {
+            const projects = JSON.parse(localStorage.getItem("projects"));
+            let index = projects.findIndex(projectElement => project.title === projectElement.title)
+            localStorage.setItem("selected project", JSON.stringify(projects[index]));
+            refreshLists();
+          }
+        }
+      ]
+    ],
+    children: [
+      {
+        element: 'h4',
+        classList: ['card-title','px-2','py-4'],
+        textContent: project.title
+      },
+      {
+        element: 'button',
+        classList: ['btn', 'btn-secondary'],
+        textContent: 'Delete Project',
+        eventListeners: [
+          [
+            'click',
+            () => {
+              deleteProject(project);
+              refreshLists();
+            }
+          ]
+        ]
+      },
+      {
+        element: 'button',
+        classList: ['btn', 'btn-secondary'],
+        textContent: 'Edit Project',
+        type: 'button',
+        "data-toggle": "collapse",
+        "data-target": `#edit-form-project-${uniqueIdentifier}`
+      }
+    ]
   });
 
-  const editBtn = document.createElement("button");
-  editBtn.classList.add("btn", "btn-secondary");
-  editBtn.innerText = "Edit Project";
-  editBtn.setAttribute("type", "button");
-  editBtn.setAttribute("data-toggle", "collapse");
-  editBtn.setAttribute("data-target", `#edit-form-project-${uniqueIdentifier}`);
-
   const form = renderEditProjectForm(project, uniqueIdentifier);
+  card.appendChild(form);
 
   // CONTENT WE WANT TO BE HIDDEN AT FIRST
   // const body = document.createElement('p');
@@ -138,25 +158,6 @@ export const displayProject = project => {
   // location = taskColumn
   // list = project['selectedProject'].tasks
   // displayFunction = displayTask
-
-  card.addEventListener("click", event => {
-    if (event.target.tagName !== "BUTTON") {
-      const tasksColumn = document.querySelector(".task-list");
-      const projects = JSON.parse(localStorage.getItem("projects"));
-      const thisProject =
-        projects[
-          projects.findIndex(
-            projectElement => project.title === projectElement.title
-          )
-        ];
-      populateList(tasksColumn, thisProject.tasks, displayTask);
-      localStorage.setItem("selected project", JSON.stringify(thisProject));
-    }
-  });
-
-  [title, deleteBtn, editBtn, form].forEach(element => {
-    card.appendChild(element);
-  });
 
   return card;
 };
