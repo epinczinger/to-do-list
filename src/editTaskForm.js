@@ -114,7 +114,7 @@ export default function renderEditTaskForm(task, taskIndex) {
                 ['priority', priorityInput.value],
               ].forEach(arr => {
                 [projectList[projectIndex], selectedProj].forEach(proj => {
-                  proj.tasks[taskIndex][arr[0]] = arr[1];
+                  [, proj.tasks[taskIndex][arr[0]]] = arr;
                 });
               });
 

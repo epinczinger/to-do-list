@@ -88,7 +88,7 @@ export default function renderEditProjectForm(project, uniqueIdentifier) {
                 ['dueDate', dueDateInput.value],
               ].forEach(arr => {
                 [projectList[uniqueIdentifier], selectedProject].forEach(proj => {
-                  proj[arr[0]] = arr[1];
+                  [, proj[arr[0]]] = arr;
                 });
               });
 
