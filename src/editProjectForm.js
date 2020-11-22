@@ -45,7 +45,7 @@ export default function renderEditForm(project, uniqueIdentifier) {
   submitButton.classList.add('btn', 'btn-primary');
   submitButton.type = 'button';
   submitButton.innerText = 'Make Changes';
-  submitButton.addEventListener('click', (event) => {
+  submitButton.addEventListener('click', () => {
     const projectList = JSON.parse(localStorage.getItem('projects'));
     const selectedProject = JSON.parse(localStorage.getItem('selected project'));
 

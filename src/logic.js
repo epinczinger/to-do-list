@@ -1,9 +1,3 @@
-import {
-  displayProject,
-  populateList,
-  displayTask,
-} from './dom';
-
 export function Task(title, description, dueDate, priority) {
   this.title = title;
   this.description = description;
@@ -23,7 +17,7 @@ export function Project(title, description, dueDate, priority) {
   };
 }
 
-export function processNewProjectForm () {
+export function processNewProjectForm() {
   const newProjectTitle = document.getElementById('project-input-title').value;
   const newProjectDescription = document.getElementById(
     'project-input-description',
@@ -45,7 +39,7 @@ export function processNewProjectForm () {
   localStorage.setItem('projects', JSON.stringify(projectsList));
 }
 
-export function processNewTaskForm () {
+export function processNewTaskForm() {
   const newTaskTitle = document.getElementById('task-input-title').value;
   const newTaskDescription = document.getElementById(
     'task-input-description',
@@ -74,7 +68,7 @@ export function processNewTaskForm () {
   let selectedProjectIndex;
 
   for (let i = 0; i < projectsList.length; i += 1) {
-    if (projectsList[i].title == selectedProject.title) {
+    if (projectsList[i].title === selectedProject.title) {
       selectedProjectIndex = i;
     }
   }

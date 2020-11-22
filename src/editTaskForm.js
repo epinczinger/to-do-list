@@ -68,10 +68,10 @@ export default function renderEditTaskForm(task, taskIndex) {
   submitButton.classList.add('btn', 'btn-primary');
   submitButton.type = 'button';
   submitButton.innerText = 'Make Changes';
-  submitButton.addEventListener('click', (event) => {
+  submitButton.addEventListener('click', () => {
     const projectList = JSON.parse(localStorage.getItem('projects'));
     const selectedProject = JSON.parse(localStorage.getItem('selected project'));
-    const projectIndex = projectList.findIndex(projectElement => projectElement.title == selectedProject.title);
+    const projectIndex = projectList.findIndex(projectElement => projectElement.title === selectedProject.title);
 
     projectList[projectIndex].tasks[taskIndex].title = titleInput.value;
     projectList[projectIndex].tasks[taskIndex].description = descriptionInput.value;
