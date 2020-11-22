@@ -3,7 +3,6 @@ import 'bootstrap/js/dist/collapse';
 import renderEditProjectForm from './editProjectForm';
 import renderEditTaskForm from './editTaskForm';
 
-
 // TASKS
 export const displayTask = (task) => {
   const card = document.createElement('div');
@@ -116,8 +115,15 @@ export const displayProject = (project) => {
   card.addEventListener('click', (event) => {
     if (event.target.tagName != 'BUTTON') {
       const tasksColumn = document.querySelector('.task-list');
-      populateList(tasksColumn, project.tasks, displayTask);
-      localStorage.setItem('selected project', JSON.stringify(project));
+      let projects = JSON.parse(localStorage.getItem('projects'));
+      let thisProject =
+        projects[
+          projects.findIndex(projectElement => project.title == projectElement.title)
+        ];
+      // There is a problem here because populateLists is being passed the taskList that was originally in the project, not the one
+      // that is currently in the localStorage.
+      populateList(tasksColumn, thisProject.tasks, displayTask);
+      localStorage.setItem("selected project", JSON.stringify(thisProject));
     }
   });
 
@@ -127,7 +133,6 @@ export const displayProject = (project) => {
 
   return card;
 };
-
 
 export const populateList = (listDestination, listArray, displayFunction) => {
   listDestination.innerHTML = '';
@@ -176,8 +181,4 @@ const deleteTask = (task) => {
   localStorage.setItem('selected project', JSON.stringify(selectedProject));
 
   localStorage.setItem('projects', JSON.stringify(projects));
-};
-
-export const editProject = (projectIndex) => {
-  console.log('hey!');
 };

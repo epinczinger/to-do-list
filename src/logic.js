@@ -29,7 +29,7 @@ const taskForm = document.getElementById('task-form');
 const taskFormSubmitButton = taskForm.getElementsByClassName('btn', 'btn-primary')[0];
 const projectFormSubmitButton = projectForm.getElementsByClassName('btn', 'btn-primary')[0];
 
-function processNewProjectForm(form) {
+function processNewProjectForm() {
   const newProjectTitle = document.getElementById('project-input-title').value;
   const newProjectDescription = document.getElementById(
     'project-input-description',
@@ -51,8 +51,8 @@ function processNewProjectForm(form) {
   localStorage.setItem('projects', JSON.stringify(projectsList));
 }
 
-projectFormSubmitButton.addEventListener('click', function (event) {
-  processNewProjectForm(this.parentElement);
+projectFormSubmitButton.addEventListener('click', () => {
+  processNewProjectForm();
 
   const projectsList = JSON.parse(localStorage.getItem('projects')) || [];
   const projectsColumn = document.querySelector('.project-list');
@@ -64,7 +64,7 @@ projectFormSubmitButton.addEventListener('click', function (event) {
   displayBtn.click();
 });
 
-function processNewTaskForm(form) {
+function processNewTaskForm() {
   const newTaskTitle = document.getElementById('task-input-title').value;
   const newTaskDescription = document.getElementById(
     'task-input-description',
@@ -105,8 +105,8 @@ function processNewTaskForm(form) {
   localStorage.setItem('selected project', JSON.stringify(projectsList[selectedProjectIndex]));
 }
 
-taskFormSubmitButton.addEventListener('click', function (event) {
-  processNewTaskForm(this.parentElement);
+taskFormSubmitButton.addEventListener('click', () => {
+  processNewTaskForm();
   const tasksList = JSON.parse(localStorage.getItem('selected project')).tasks || [];
   const tasksColumn = document.querySelector('.task-list');
 
