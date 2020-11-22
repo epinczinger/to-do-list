@@ -21,7 +21,6 @@
   "homepage": "https://github.com/epinczinger/to-do-list#readme",
   "devDependencies": {
     "babel-eslint": "^10.1.0",
-    "bootstrap": "^4.5.3",
     "css-loader": "^5.0.1",
     "eslint": "^6.8.0",
     "eslint-config-airbnb-base": "^14.1.0",
@@ -37,6 +36,7 @@
     "webpack-cli": "^4.2.0"
   },
   "dependencies": {
+    "bootstrap": "^4.5.3",
     "@popperjs/core": "^2.5.4",
     "jquery": "^3.0.0",
     "popper.js": "^1.11.0"

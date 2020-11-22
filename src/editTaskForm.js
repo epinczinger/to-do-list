@@ -1,4 +1,5 @@
-import { createContent } from './helpers';
+import { createContent, updateLocalStorage } from './helpers';
+import { refreshLists } from './dom';
 
 export default function renderEditTaskForm(task, taskIndex) {
   const form = createContent({
@@ -97,10 +98,10 @@ export default function renderEditTaskForm(task, taskIndex) {
             'click',
             () => {
               const projectList = JSON.parse(localStorage.getItem('projects'));
-              const selectedProject = JSON.parse(
+              const selectedProj = JSON.parse(
                 localStorage.getItem('selected project'),
               );
-              const projectIndex = projectList.findIndex(projectElement => projectElement.title === selectedProject.title);
+              const projectIndex = projectList.findIndex(proj => proj.title === selectedProj.title);
               const titleInput = document.getElementById(`edit-task-title-${taskIndex}`);
               const descriptionInput = document.getElementById(`edit-task-description-${taskIndex}`);
               const dueDateInput = document.getElementById(`edit-task-date-${taskIndex}`);
@@ -112,7 +113,7 @@ export default function renderEditTaskForm(task, taskIndex) {
                 ['dueDate', dueDateInput.value],
                 ['priority', priorityInput.value],
               ].forEach(arr => {
-                [projectList[projectIndex], selectedProject].forEach(proj => {
+                [projectList[projectIndex], selectedProj].forEach(proj => {
                   proj.tasks[taskIndex][arr[0]] = arr[1];
                 });
               });
@@ -120,7 +121,7 @@ export default function renderEditTaskForm(task, taskIndex) {
               updateLocalStorage(
                 [
                   ['projects', JSON.stringify(projectList)],
-                  ['selected project', JSON.stringify(selectedProject)],
+                  ['selected project', JSON.stringify(selectedProj)],
                 ],
               );
               refreshLists();

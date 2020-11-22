@@ -1,114 +1,71 @@
-import "bootstrap/js/dist/collapse";
-import renderEditProjectForm from "./editProjectForm";
-import renderEditTaskForm from "./editTaskForm";
-import { createContent } from "./helpers";
+import 'bootstrap/js/dist/collapse';
+import renderEditProjectForm from './editProjectForm';
+import renderEditTaskForm from './editTaskForm';
+import { createContent, updateLocalStorage } from './helpers';
 
 export const populateList = (listDestination, listArray, displayFunction) => {
-  listDestination.innerHTML = "";
+  listDestination.innerHTML = '';
   for (let i = 0; i < listArray.length; i += 1) {
     listDestination.appendChild(displayFunction(listArray[i]));
   }
 };
 
 export function refreshLists() {
-  let projectsColumn = document.querySelector(".project-list");
-  let projectsList = JSON.parse(localStorage.getItem("projects")) || [];
-  let tasksColumn = document.querySelector(".task-list");
-  let selectedProjectTasks = JSON.parse(
-    localStorage.getItem("selected project")
+  const projectsColumn = document.querySelector('.project-list');
+  const projectsList = JSON.parse(localStorage.getItem('projects')) || [];
+  const tasksColumn = document.querySelector('.task-list');
+  const selectedProjectTasks = JSON.parse(
+    localStorage.getItem('selected project'),
   ).tasks;
   populateList(projectsColumn, projectsList, displayProject);
   populateList(tasksColumn, selectedProjectTasks, displayTask);
 }
 
-export const displayTask = task => {
-  let selectedProjectTaskList = JSON.parse(
-    localStorage.getItem("selected project")
-  ).tasks;
-  let taskIndex = selectedProjectTaskList.findIndex(
-    element => element.title === task.title
+const deleteProject = project => {
+  const projectsArray = JSON.parse(localStorage.getItem('projects'));
+  const selectedProject = JSON.parse(localStorage.getItem('selected project'));
+  const index = projectsArray.findIndex(
+    projectElement => projectElement.title === project.title,
   );
 
-  let card = createContent({
-    element: "div",
-    classList: ["card", "my-2"],
-    children: [
-      {
-        element: "h4",
-        classList: ["card-title", "px-2", "py-4"],
-        textContent: task.title
-      },
-      {
-        element: "p",
-        classList: ["card-body"],
-        textContent: task.description
-      },
-      {
-        element: "strong",
-        classList: ["card-body"],
-        textContent: task.priority
-      },
-      {
-        element: "small",
-        classList: ["card-body"],
-        textContent: task.dueDate
-      },
-      {
-        element: "button",
-        classList: ["btn", "btn-secondary"],
-        textContent: "Delete Task",
-        eventListeners: [
-          [
-            'click',
-            () => {
-              deleteTask(task);
-              refreshLists();
-            }
-          ]
-        ]
-      },
-      {
-        element: "button",
-        classList: ["btn", "btn-secondary"],
-        textContent: "Edit Task",
-        type: "button",
-        "data-toggle": "collapse",
-        "data-target": `#edit-form-task-${taskIndex}`
-      }
-    ]
-  });
+  if (selectedProject.title === projectsArray[index].title) {
+    updateLocalStorage([
+      ['selected project', JSON.stringify([])],
+    ]);
+  }
 
-  card.appendChild(renderEditTaskForm(task, taskIndex));
-
-  return card;
+  projectsArray.splice(index, 1);
+  updateLocalStorage([
+    ['projects', JSON.stringify(projectsArray)],
+  ]);
 };
 
 export const displayProject = project => {
-  const projectList = JSON.parse(localStorage.getItem("projects"));
+  const projectList = JSON.parse(localStorage.getItem('projects'));
   const titleList = projectList.map(project => project.title);
   const uniqueIdentifier = titleList.indexOf(project.title);
 
-  let card = createContent({
+  const card = createContent({
     element: 'div',
     classList: ['card', 'my-2'],
     eventListeners: [
       [
         'click',
         (event) => {
-          if (event.target.tagName !== "BUTTON") {
-            const projects = JSON.parse(localStorage.getItem("projects"));
-            let index = projects.findIndex(projectElement => project.title === projectElement.title)
-            localStorage.setItem("selected project", JSON.stringify(projects[index]));
+          if (event.target.tagName !== 'BUTTON') {
+            const projects = JSON.parse(localStorage.getItem('projects'));
+            const index = projects.findIndex((element) => project.title === element.title);
+            localStorage.setItem('selected project', JSON.stringify(projects[index]));
             refreshLists();
           }
-        }
-      ]
+        },
+      ],
     ],
     children: [
       {
         element: 'h4',
-        classList: ['card-title','px-2','py-4'],
-        textContent: project.title
+        classList: ['card-title', 'px-2', 'py-4'],
+        textContent: project.title,
       },
       {
         element: 'button',
@@ -120,19 +77,19 @@ export const displayProject = project => {
             () => {
               deleteProject(project);
               refreshLists();
-            }
-          ]
-        ]
+            },
+          ],
+        ],
       },
       {
         element: 'button',
         classList: ['btn', 'btn-secondary'],
         textContent: 'Edit Project',
         type: 'button',
-        "data-toggle": "collapse",
-        "data-target": `#edit-form-project-${uniqueIdentifier}`
-      }
-    ]
+        'data-toggle': 'collapse',
+        'data-target': `#edit-form-project-${uniqueIdentifier}`,
+      },
+    ],
   });
 
   const form = renderEditProjectForm(project, uniqueIdentifier);
@@ -162,47 +119,88 @@ export const displayProject = project => {
   return card;
 };
 
-const deleteProject = project => {
-  const projectsArray = JSON.parse(localStorage.getItem("projects"));
-  const index = projectsArray.findIndex(
-    projectElement => projectElement.title === project.title
+
+export const displayTask = task => {
+  const selectedProjectTaskList = JSON.parse(
+    localStorage.getItem('selected project'),
+  ).tasks;
+  const taskIndex = selectedProjectTaskList.findIndex(
+    element => element.title === task.title,
   );
 
-  const selectedProject = JSON.parse(localStorage.getItem("selected project"));
-  if (selectedProject.title === projectsArray[index].title) {
-    localStorage.setItem("selected project", JSON.stringify([]));
+  const card = createContent({
+    element: 'div',
+    classList: ['card', 'my-2'],
+    children: [
+      {
+        element: 'h4',
+        classList: ['card-title', 'px-2', 'py-4'],
+        textContent: task.title,
+      },
+      {
+        element: 'p',
+        classList: ['card-body'],
+        textContent: task.description,
+      },
+      {
+        element: 'strong',
+        classList: ['card-body'],
+        textContent: task.priority,
+      },
+      {
+        element: 'small',
+        classList: ['card-body'],
+        textContent: task.dueDate,
+      },
+      {
+        element: 'button',
+        classList: ['btn', 'btn-secondary'],
+        textContent: 'Delete Task',
+        eventListeners: [
+          [
+            'click',
+            () => {
+              deleteTask(task);
+              refreshLists();
+            },
+          ],
+        ],
+      },
+      {
+        element: 'button',
+        classList: ['btn', 'btn-secondary'],
+        textContent: 'Edit Task',
+        type: 'button',
+        'data-toggle': 'collapse',
+        'data-target': `#edit-form-task-${taskIndex}`,
+      },
+    ],
+  });
 
-    // If the removed project was previously selected, remove the tasks from the task column;
-    const tasksColumn = document.querySelector(".task-list");
-    const tasks = [];
-    populateList(tasksColumn, tasks, displayTask);
-  }
+  card.appendChild(renderEditTaskForm(task, taskIndex));
 
-  // Removing the project in the projects array is already implemented.
-  projectsArray.splice(index, 1);
-  localStorage.setItem("projects", JSON.stringify(projectsArray));
+  return card;
 };
 
 const deleteTask = task => {
-  const selectedProject = JSON.parse(localStorage.getItem("selected project"));
+  const selectedProject = JSON.parse(localStorage.getItem('selected project'));
+  const projects = JSON.parse(localStorage.getItem('projects'));
   const tasksArray = selectedProject.tasks;
-
-  const projects = JSON.parse(localStorage.getItem("projects"));
-
   const index = tasksArray.findIndex(
-    taskElement => taskElement.title === task.title
+    taskElement => taskElement.title === task.title,
   );
-
   const projectIndex = projects.findIndex(
-    projectElement => projectElement.title === selectedProject.title
+    projectElement => projectElement.title === selectedProject.title,
   );
 
   tasksArray.splice(index, 1);
   projects[projectIndex].tasks = tasksArray;
-
   selectedProject.tasks = tasksArray;
 
-  localStorage.setItem("selected project", JSON.stringify(selectedProject));
-
-  localStorage.setItem("projects", JSON.stringify(projects));
+  updateLocalStorage(
+    [
+      ['selected project', JSON.stringify(selectedProject)],
+      ['projects', JSON.stringify(projects)],
+    ],
+  );
 };
