@@ -1,3 +1,5 @@
+import { createContent } from './helpers';
+
 export default function renderEditTaskForm(task, taskIndex) {
   const form = createContent({
     element: 'form',
@@ -67,8 +69,7 @@ export default function renderEditTaskForm(task, taskIndex) {
             element: 'select',
             classList: ['form-control'],
             id: `edit-task-priority-${taskIndex}`,
-            type: 'date',
-            value: task.dueDate,
+            value: task.priority,
             children: [
               {
                 element: 'option',
