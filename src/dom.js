@@ -1,4 +1,3 @@
-import { Task, Project } from './logic';
 import 'bootstrap/js/dist/collapse';
 import renderEditProjectForm from './editProjectForm';
 import renderEditTaskForm from './editTaskForm';
@@ -17,7 +16,7 @@ export const displayTask = (task) => {
   deleteBtn.innerText = 'Delete Task';
 
   const selectedProjectTaskList = JSON.parse(localStorage.getItem('selected project')).tasks;
-  const taskIndex = selectedProjectTaskList.findIndex(taskElement => taskElement.title == task.title);
+  const taskIndex = selectedProjectTaskList.findIndex(element => element.title == task.title);
 
   const editBtn = document.createElement('button');
   editBtn.classList.add('btn', 'btn-secondary');
@@ -113,17 +112,15 @@ export const displayProject = (project) => {
   // displayFunction = displayTask
 
   card.addEventListener('click', (event) => {
-    if (event.target.tagName != 'BUTTON') {
+    if (event.target.tagName !== 'BUTTON') {
       const tasksColumn = document.querySelector('.task-list');
       let projects = JSON.parse(localStorage.getItem('projects'));
       let thisProject =
         projects[
           projects.findIndex(projectElement => project.title == projectElement.title)
         ];
-      // There is a problem here because populateLists is being passed the taskList that was originally in the project, not the one
-      // that is currently in the localStorage.
       populateList(tasksColumn, thisProject.tasks, displayTask);
-      localStorage.setItem("selected project", JSON.stringify(thisProject));
+      localStorage.setItem('selected project', JSON.stringify(thisProject));
     }
   });
 
