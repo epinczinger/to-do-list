@@ -1,105 +1,133 @@
-import { populateList, displayProject, displayTask } from './dom';
-
 export default function renderEditTaskForm(task, taskIndex) {
-  const form = document.createElement('form');
-  form.classList.add('collapse');
+  const form = createContent({
+    element: 'form',
+    classList: ['collapse'],
+    id: `edit-form-task-${taskIndex}`,
+    children: [
+      {
+        element: 'div',
+        classList: ['form-group'],
+        children: [
+          {
+            element: 'label',
+            innerText: 'Title:',
+          },
+          {
+            element: 'input',
+            id: `edit-task-title-${taskIndex}`,
+            type: 'text',
+            value: task.title,
+            classList: ['form-control'],
+          },
+        ],
+      },
+      {
+        element: 'div',
+        classList: ['form-group'],
+        children: [
+          {
+            element: 'label',
+            innerText: 'Description:',
+          },
+          {
+            element: 'input',
+            type: 'text',
+            classList: ['form-control'],
+            id: `edit-task-description-${taskIndex}`,
+            value: task.description,
+          },
+        ],
+      },
+      {
+        element: 'div',
+        classList: ['form-group'],
+        children: [
+          {
+            element: 'label',
+            innerText: 'Due Date:',
+          },
+          {
+            element: 'input',
+            type: 'date',
+            classList: ['form-control'],
+            id: `edit-task-date-${taskIndex}`,
+            value: task.dueDate,
+          },
+        ],
+      },
+      {
+        element: 'div',
+        classList: ['form-group'],
+        children: [
+          {
+            element: 'label',
+            innerText: 'Priority:',
+          },
+          {
+            element: 'select',
+            classList: ['form-control'],
+            id: `edit-task-priority-${taskIndex}`,
+            type: 'date',
+            value: task.dueDate,
+            children: [
+              {
+                element: 'option',
+                textContent: 'Low',
+              },
+              {
+                element: 'option',
+                textContent: 'Medium',
+              },
+              {
+                element: 'option',
+                textContent: 'High',
+              },
+            ],
+          },
+        ],
+      },
+      {
+        element: 'button',
+        classList: ['btn', 'btn-primary'],
+        type: 'button',
+        innerText: 'Make Changes',
+        eventListeners: [
+          [
+            'click',
+            () => {
+              const projectList = JSON.parse(localStorage.getItem('projects'));
+              const selectedProject = JSON.parse(
+                localStorage.getItem('selected project'),
+              );
+              const projectIndex = projectList.findIndex(projectElement => projectElement.title === selectedProject.title);
+              const titleInput = document.getElementById(`edit-task-title-${taskIndex}`);
+              const descriptionInput = document.getElementById(`edit-task-description-${taskIndex}`);
+              const dueDateInput = document.getElementById(`edit-task-date-${taskIndex}`);
+              const priorityInput = document.getElementById(`edit-task-priority-${taskIndex}`);
 
-  form.id = `edit-form-task-${taskIndex}`;
+              [
+                ['title', titleInput.value],
+                ['description', descriptionInput.value],
+                ['dueDate', dueDateInput.value],
+                ['priority', priorityInput.value],
+              ].forEach(arr => {
+                [projectList[projectIndex], selectedProject].forEach(proj => {
+                  proj.tasks[taskIndex][arr[0]] = arr[1];
+                });
+              });
 
-  const titleFormGroup = document.createElement('div');
-  titleFormGroup.classList.add('form-group');
-  const titleLabel = document.createElement('label');
-  titleLabel.innerText = 'Title:';
-  const titleInput = document.createElement('input');
-  titleInput.id = `edit-task-title-${taskIndex}`;
-  titleInput.type = 'text';
-  titleInput.value = task.title;
-  titleInput.classList.add('form-control');
-
-  titleFormGroup.appendChild(titleLabel);
-  titleFormGroup.appendChild(titleInput);
-
-  const descriptionFormGroup = document.createElement('div');
-  descriptionFormGroup.classList.add('form-group');
-  const descriptionLabel = document.createElement('label');
-  descriptionLabel.innerText = 'Description:';
-  const descriptionInput = document.createElement('input');
-  descriptionInput.type = 'text';
-  descriptionInput.classList.add('form-control');
-  descriptionInput.id = `edit-task-description-${taskIndex}`;
-  descriptionInput.value = task.description;
-  descriptionFormGroup.appendChild(descriptionLabel);
-  descriptionFormGroup.appendChild(descriptionInput);
-
-  const dueDateFormGroup = document.createElement('div');
-  dueDateFormGroup.classList.add('form-group');
-  const dueDateLabel = document.createElement('label');
-  dueDateLabel.innerText = 'Due Date:';
-  const dueDateInput = document.createElement('input');
-  dueDateInput.type = 'date';
-  dueDateInput.classList.add('form-control');
-  dueDateInput.id = `edit-task-date-${taskIndex}`;
-  dueDateInput.value = task.dueDate;
-  dueDateFormGroup.appendChild(dueDateLabel);
-  dueDateFormGroup.appendChild(dueDateInput);
-
-  const priorityFormGroup = document.createElement('div');
-  priorityFormGroup.classList.add('form-group');
-  const priorityLabel = document.createElement('label');
-  priorityLabel.innerText = 'Priority';
-
-  const priorityInput = document.createElement('select');
-  priorityInput.classList.add('form-control');
-  priorityInput.id = `edit-task-priority-${taskIndex}`;
-  const optionLow = document.createElement('option');
-  optionLow.textContent = 'Low';
-  const optionMedium = document.createElement('option');
-  optionMedium.textContent = 'Medium';
-  const optionHigh = document.createElement('option');
-  optionHigh.textContent = 'High';
-  priorityInput.appendChild(optionLow);
-  priorityInput.appendChild(optionMedium);
-  priorityInput.appendChild(optionHigh);
-
-  priorityFormGroup.appendChild(priorityLabel);
-  priorityFormGroup.appendChild(priorityInput);
-
-  const submitButton = document.createElement('button');
-  submitButton.classList.add('btn', 'btn-primary');
-  submitButton.type = 'button';
-  submitButton.innerText = 'Make Changes';
-  submitButton.addEventListener('click', () => {
-    const projectList = JSON.parse(localStorage.getItem('projects'));
-    const selectedProject = JSON.parse(localStorage.getItem('selected project'));
-    const projectIndex = projectList.findIndex(projectElement => projectElement.title === selectedProject.title);
-
-    projectList[projectIndex].tasks[taskIndex].title = titleInput.value;
-    projectList[projectIndex].tasks[taskIndex].description = descriptionInput.value;
-    projectList[projectIndex].tasks[taskIndex].dueDate = dueDateInput.value;
-    projectList[projectIndex].tasks[taskIndex].priority = priorityInput.value;
-
-    selectedProject.tasks[taskIndex].title = titleInput.value;
-    selectedProject.tasks[taskIndex].description = descriptionInput.value;
-    selectedProject.tasks[taskIndex].dueDate = dueDateInput.value;
-    selectedProject.tasks[taskIndex].priority = priorityInput.value;
-
-    localStorage.setItem('projects', JSON.stringify(projectList));
-    localStorage.setItem('selected project', JSON.stringify(selectedProject));
-
-    const projectsColumn = document.querySelector('.project-list');
-    const projectsList = JSON.parse(localStorage.getItem('projects')) || [];
-    populateList(projectsColumn, projectsList, displayProject);
-
-    const tasksColumn = document.querySelector('.task-list');
-    const selectedProjectTasks = JSON.parse(localStorage.getItem('selected project')).tasks;
-    populateList(tasksColumn, selectedProjectTasks, displayTask);
+              updateLocalStorage(
+                [
+                  ['projects', JSON.stringify(projectList)],
+                  ['selected project', JSON.stringify(selectedProject)],
+                ],
+              );
+              refreshLists();
+            },
+          ],
+        ],
+      },
+    ],
   });
-
-  form.appendChild(titleFormGroup);
-  form.appendChild(descriptionFormGroup);
-  form.appendChild(dueDateFormGroup);
-  form.appendChild(priorityFormGroup);
-  form.appendChild(submitButton);
-
   return form;
 }

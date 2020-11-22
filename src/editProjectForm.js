@@ -67,9 +67,8 @@ export default function renderEditProjectForm(project, uniqueIdentifier) {
           [
             "click",
             () => {
-              
-              const projectList = JSON.parse(localStorage.getItem("projects"));
-              const selectedProject = JSON.parse(
+              let projectList = JSON.parse(localStorage.getItem("projects"));
+              let selectedProject = JSON.parse(
                   localStorage.getItem("selected project")
                 );
                 
