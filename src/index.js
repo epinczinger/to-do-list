@@ -7,7 +7,7 @@ import {
   displayTask,
   displayProject,
   populateList,
-  editProject
+  editProject,
 } from './dom';
 
 const testDiv = document.createElement('div');

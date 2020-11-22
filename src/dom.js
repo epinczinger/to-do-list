@@ -1,7 +1,7 @@
 import { Task, Project } from './logic';
 import 'bootstrap/js/dist/collapse';
 import renderEditProjectForm from './editProjectForm';
-import renderEditTaskForm from "./editTaskForm";
+import renderEditTaskForm from './editTaskForm';
 
 
 // TASKS
@@ -15,24 +15,24 @@ export const displayTask = (task) => {
 
   const deleteBtn = document.createElement('button');
   deleteBtn.classList.add('btn', 'btn-secondary');
-  deleteBtn.innerText = 'Delete Task'
-  
-  let selectedProjectTaskList = JSON.parse(localStorage.getItem('selected project')).tasks;
-  let taskIndex = selectedProjectTaskList.findIndex(taskElement =>  taskElement.title == task.title);
-  
-  const editBtn = document.createElement("button");
-  editBtn.classList.add("btn", "btn-secondary");
-  editBtn.innerText = "Edit Task";
+  deleteBtn.innerText = 'Delete Task';
+
+  const selectedProjectTaskList = JSON.parse(localStorage.getItem('selected project')).tasks;
+  const taskIndex = selectedProjectTaskList.findIndex(taskElement => taskElement.title == task.title);
+
+  const editBtn = document.createElement('button');
+  editBtn.classList.add('btn', 'btn-secondary');
+  editBtn.innerText = 'Edit Task';
   editBtn.setAttribute('type', 'button');
   editBtn.setAttribute('data-toggle', 'collapse');
   editBtn.setAttribute('data-target', `#edit-form-task-${taskIndex}`);
-  
-  let form = renderEditTaskForm(task, taskIndex);
-  
-  deleteBtn.addEventListener('click', function() {
+
+  const form = renderEditTaskForm(task, taskIndex);
+
+  deleteBtn.addEventListener('click', () => {
     deleteTask(task);
-    let tasksColumn = document.querySelector(".task-list");
-    let selectedProjectTasks = JSON.parse(localStorage.getItem('selected project')).tasks;
+    const tasksColumn = document.querySelector('.task-list');
+    const selectedProjectTasks = JSON.parse(localStorage.getItem('selected project')).tasks;
     populateList(tasksColumn, selectedProjectTasks, displayTask);
   });
 
@@ -60,10 +60,10 @@ export const displayTask = (task) => {
 export const displayProject = (project) => {
   const card = document.createElement('div');
   card.classList.add('card', 'my-2');
-  
-  let projectList = JSON.parse(localStorage.getItem('projects'));
-  let titleList = projectList.map(project => project.title);
-  let uniqueIdentifier = titleList.indexOf(project.title);
+
+  const projectList = JSON.parse(localStorage.getItem('projects'));
+  const titleList = projectList.map(project => project.title);
+  const uniqueIdentifier = titleList.indexOf(project.title);
   card.setAttribute('data-attribute', uniqueIdentifier);
 
   const title = document.createElement('h4');
@@ -71,26 +71,26 @@ export const displayProject = (project) => {
   title.textContent = project.title;
 
   const deleteBtn = document.createElement('button');
-  deleteBtn.classList.add("btn", "btn-secondary");
-  deleteBtn.innerText = "Delete Project";
+  deleteBtn.classList.add('btn', 'btn-secondary');
+  deleteBtn.innerText = 'Delete Project';
 
-  deleteBtn.addEventListener("click", function () {
+  deleteBtn.addEventListener('click', () => {
     deleteProject(project);
 
-    const projectsColumn = document.querySelector(".project-list");
-    const projectsList = JSON.parse(localStorage.getItem("projects")) || [];
+    const projectsColumn = document.querySelector('.project-list');
+    const projectsList = JSON.parse(localStorage.getItem('projects')) || [];
 
     populateList(projectsColumn, projectsList, displayProject);
   });
 
-  const editBtn = document.createElement("button");
-  editBtn.classList.add("btn", "btn-secondary");
-  editBtn.innerText = "Edit Project";
+  const editBtn = document.createElement('button');
+  editBtn.classList.add('btn', 'btn-secondary');
+  editBtn.innerText = 'Edit Project';
   editBtn.setAttribute('type', 'button');
   editBtn.setAttribute('data-toggle', 'collapse');
   editBtn.setAttribute('data-target', `#edit-form-project-${uniqueIdentifier}`);
 
-  let form = renderEditProjectForm(project, uniqueIdentifier);
+  const form = renderEditProjectForm(project, uniqueIdentifier);
 
   // CONTENT WE WANT TO BE HIDDEN AT FIRST
   // const body = document.createElement('p');
@@ -113,11 +113,11 @@ export const displayProject = (project) => {
   // list = project['selectedProject'].tasks
   // displayFunction = displayTask
 
-  card.addEventListener('click', function(event) {
+  card.addEventListener('click', (event) => {
     if (event.target.tagName != 'BUTTON') {
-      let tasksColumn = document.querySelector(".task-list");
+      const tasksColumn = document.querySelector('.task-list');
       populateList(tasksColumn, project.tasks, displayTask);
-      localStorage.setItem("selected project", JSON.stringify(project));
+      localStorage.setItem('selected project', JSON.stringify(project));
     }
   });
 
@@ -130,26 +130,24 @@ export const displayProject = (project) => {
 
 
 export const populateList = (listDestination, listArray, displayFunction) => {
+  listDestination.innerHTML = '';
 
-  listDestination.innerHTML = "";
-  
   for (let i = 0; i < listArray.length; i += 1) {
     listDestination.appendChild(displayFunction(listArray[i]));
   }
-
 };
 
 const deleteProject = (project) => {
-  let projectsArray = JSON.parse(localStorage.getItem('projects'));
-  let index = projectsArray.findIndex(projectElement => projectElement.title == project.title);
+  const projectsArray = JSON.parse(localStorage.getItem('projects'));
+  const index = projectsArray.findIndex(projectElement => projectElement.title == project.title);
 
-  let selectedProject = JSON.parse(localStorage.getItem('selected project'));
+  const selectedProject = JSON.parse(localStorage.getItem('selected project'));
   if (selectedProject.title == projectsArray[index].title) {
     localStorage.setItem('selected project', JSON.stringify([]));
 
     // If the removed project was previously selected, remove the tasks from the task column;
-    let tasksColumn = document.querySelector(".task-list");
-    let tasks = [];
+    const tasksColumn = document.querySelector('.task-list');
+    const tasks = [];
     populateList(tasksColumn, tasks, displayTask);
   }
 
@@ -159,17 +157,16 @@ const deleteProject = (project) => {
 };
 
 const deleteTask = (task) => {
+  const selectedProject = JSON.parse(localStorage.getItem('selected project'));
+  const tasksArray = selectedProject.tasks;
 
-  let selectedProject = JSON.parse(localStorage.getItem("selected project"));
-  let tasksArray = selectedProject.tasks;
+  const projects = JSON.parse(localStorage.getItem('projects'));
 
-  let projects = JSON.parse(localStorage.getItem('projects'));
-  
-  let index = tasksArray.findIndex(
-    (taskElement) => taskElement.title == task.title
+  const index = tasksArray.findIndex(
+    (taskElement) => taskElement.title == task.title,
   );
-  
-  let projectIndex = projects.findIndex((projectElement) => projectElement.title == selectedProject.title);
+
+  const projectIndex = projects.findIndex((projectElement) => projectElement.title == selectedProject.title);
 
   tasksArray.splice(index, 1);
   projects[projectIndex].tasks = tasksArray;
@@ -179,9 +176,8 @@ const deleteTask = (task) => {
   localStorage.setItem('selected project', JSON.stringify(selectedProject));
 
   localStorage.setItem('projects', JSON.stringify(projects));
-
 };
 
 export const editProject = (projectIndex) => {
-  console.log('hey!')
+  console.log('hey!');
 };

@@ -1,16 +1,15 @@
-import { populateList, displayProject, displayTask } from "./dom";
+import { populateList, displayProject, displayTask } from './dom';
 
 export default function renderEditForm(project, uniqueIdentifier) {
-
-  let form = document.createElement('form');
+  const form = document.createElement('form');
   form.classList.add('collapse');
   form.id = `edit-form-project-${uniqueIdentifier}`;
 
-  let titleFormGroup = document.createElement('div');
+  const titleFormGroup = document.createElement('div');
   titleFormGroup.classList.add('form-group');
-  let titleLabel = document.createElement('label');
+  const titleLabel = document.createElement('label');
   titleLabel.innerText = 'Title:';
-  let titleInput =  document.createElement('input');
+  const titleInput = document.createElement('input');
   titleInput.type = 'text';
   titleInput.classList.add('form-control');
   titleInput.id = `project-${uniqueIdentifier}-input-title`;
@@ -18,11 +17,11 @@ export default function renderEditForm(project, uniqueIdentifier) {
   titleFormGroup.appendChild(titleLabel);
   titleFormGroup.appendChild(titleInput);
 
-  let descriptionFormGroup = document.createElement('div');
+  const descriptionFormGroup = document.createElement('div');
   descriptionFormGroup.classList.add('form-group');
-  let descriptionLabel = document.createElement('label');
+  const descriptionLabel = document.createElement('label');
   descriptionLabel.innerText = 'Description:';
-  let descriptionInput =  document.createElement('input');
+  const descriptionInput = document.createElement('input');
   descriptionInput.type = 'text';
   descriptionInput.classList.add('form-control');
   descriptionInput.id = `project-${uniqueIdentifier}-input-description`;
@@ -30,11 +29,11 @@ export default function renderEditForm(project, uniqueIdentifier) {
   descriptionFormGroup.appendChild(descriptionLabel);
   descriptionFormGroup.appendChild(descriptionInput);
 
-  let dueDateFormGroup = document.createElement('div');
+  const dueDateFormGroup = document.createElement('div');
   dueDateFormGroup.classList.add('form-group');
-  let dueDateLabel = document.createElement('label');
+  const dueDateLabel = document.createElement('label');
   dueDateLabel.innerText = 'Due Date:';
-  let dueDateInput =  document.createElement('input');
+  const dueDateInput = document.createElement('input');
   dueDateInput.type = 'date';
   dueDateInput.classList.add('form-control');
   dueDateInput.id = `project-${uniqueIdentifier}-input-date`;
@@ -42,13 +41,13 @@ export default function renderEditForm(project, uniqueIdentifier) {
   dueDateFormGroup.appendChild(dueDateLabel);
   dueDateFormGroup.appendChild(dueDateInput);
 
-  let submitButton = document.createElement('button');
+  const submitButton = document.createElement('button');
   submitButton.classList.add('btn', 'btn-primary');
   submitButton.type = 'button';
   submitButton.innerText = 'Make Changes';
-  submitButton.addEventListener('click', function (event) {
-    let projectList = JSON.parse(localStorage.getItem('projects'));
-    let selectedProject = JSON.parse(localStorage.getItem('selected project'));
+  submitButton.addEventListener('click', (event) => {
+    const projectList = JSON.parse(localStorage.getItem('projects'));
+    const selectedProject = JSON.parse(localStorage.getItem('selected project'));
 
     projectList[uniqueIdentifier].title = titleInput.value;
     projectList[uniqueIdentifier].description = descriptionInput.value;
@@ -61,12 +60,12 @@ export default function renderEditForm(project, uniqueIdentifier) {
     localStorage.setItem('projects', JSON.stringify(projectList));
     localStorage.setItem('selected project', JSON.stringify(selectedProject));
 
-    const projectsColumn = document.querySelector(".project-list");
-    const projectsList = JSON.parse(localStorage.getItem("projects")) || [];
+    const projectsColumn = document.querySelector('.project-list');
+    const projectsList = JSON.parse(localStorage.getItem('projects')) || [];
     populateList(projectsColumn, projectsList, displayProject);
 
-    let tasksColumn = document.querySelector(".task-list");
-    let selectedProjectTasks = JSON.parse(localStorage.getItem('selected project')).tasks;
+    const tasksColumn = document.querySelector('.task-list');
+    const selectedProjectTasks = JSON.parse(localStorage.getItem('selected project')).tasks;
     populateList(tasksColumn, selectedProjectTasks, displayTask);
   });
 
@@ -76,4 +75,4 @@ export default function renderEditForm(project, uniqueIdentifier) {
   form.appendChild(submitButton);
 
   return form;
-};
+}

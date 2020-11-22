@@ -2,7 +2,7 @@ import {
   displayProject,
   populateList,
   displayTask,
-} from "./dom";
+} from './dom';
 
 export function Task(title, description, dueDate, priority) {
   this.title = title;
@@ -54,12 +54,12 @@ function processNewProjectForm(form) {
 projectFormSubmitButton.addEventListener('click', function (event) {
   processNewProjectForm(this.parentElement);
 
-  let projectsList = JSON.parse(localStorage.getItem("projects")) || [];
-  let projectsColumn = document.querySelector(".project-list");
+  const projectsList = JSON.parse(localStorage.getItem('projects')) || [];
+  const projectsColumn = document.querySelector('.project-list');
 
   populateList(projectsColumn, projectsList, displayProject);
 
-  let displayBtn = document.getElementById('display-form-btn');
+  const displayBtn = document.getElementById('display-form-btn');
 
   displayBtn.click();
 });
@@ -81,20 +81,20 @@ function processNewTaskForm(form) {
     newTaskTitle,
     newTaskDescription,
     newTaskDueDate,
-    newTaskPriority
+    newTaskPriority,
   );
 
-  let projectsList = JSON.parse(localStorage.getItem('projects'));
-  let selectedProject = JSON.parse(localStorage.getItem("selected project"));
-  
-  let selectedProjectTaskList = selectedProject.tasks || []; 
+  const projectsList = JSON.parse(localStorage.getItem('projects'));
+  const selectedProject = JSON.parse(localStorage.getItem('selected project'));
+
+  const selectedProjectTaskList = selectedProject.tasks || [];
   selectedProjectTaskList.push(newTask);
 
   let selectedProjectIndex;
 
-  for (let i = 0; i < projectsList.length ; i += 1) {
-    if (projectsList[i].title == selectedProject.title ) {
-     selectedProjectIndex = i;
+  for (let i = 0; i < projectsList.length; i += 1) {
+    if (projectsList[i].title == selectedProject.title) {
+      selectedProjectIndex = i;
     }
   }
 
@@ -105,10 +105,10 @@ function processNewTaskForm(form) {
   localStorage.setItem('selected project', JSON.stringify(projectsList[selectedProjectIndex]));
 }
 
-taskFormSubmitButton.addEventListener("click", function (event) {
+taskFormSubmitButton.addEventListener('click', function (event) {
   processNewTaskForm(this.parentElement);
-  let tasksList = JSON.parse(localStorage.getItem("selected project")).tasks || [];
-  let tasksColumn = document.querySelector(".task-list");
+  const tasksList = JSON.parse(localStorage.getItem('selected project')).tasks || [];
+  const tasksColumn = document.querySelector('.task-list');
 
   populateList(tasksColumn, tasksList, displayTask);
   // let displayBtn = document.getElementById("display-task-form-btn");
