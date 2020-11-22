@@ -9,6 +9,15 @@ export const populateList = (listDestination, listArray, displayFunction) => {
   }
 };
 
+export function refreshLists() {
+  let projectsColumn = document.querySelector(".project-list");
+  let projectsList = JSON.parse(localStorage.getItem("projects")) || [];
+  let tasksColumn = document.querySelector(".task-list");
+  let selectedProjectTasks = JSON.parse(localStorage.getItem("selected project")).tasks;
+  populateList(projectsColumn, projectsList, displayProject);
+  populateList(tasksColumn, selectedProjectTasks, displayTask);
+};
+
 export const displayTask = task => {
   const card = document.createElement('div');
   card.classList.add('card', 'my-2');
@@ -187,7 +196,3 @@ const deleteTask = task => {
 
   localStorage.setItem('projects', JSON.stringify(projects));
 };
-
-// TASKS
-
-// PROJECTS

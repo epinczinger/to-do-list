@@ -1,78 +1,109 @@
-import { populateList, displayProject, displayTask } from './dom';
+import { refreshLists } from "./dom";
+import { createContent, updateLocalStorage } from "./helpers";
 
-export default function renderEditForm(project, uniqueIdentifier) {
-  const form = document.createElement('form');
-  form.classList.add('collapse');
-  form.id = `edit-form-project-${uniqueIdentifier}`;
+export default function renderEditProjectForm(project, uniqueIdentifier) {
+  const form = createContent({
+    element: "form",
+    classList: ["collapse"],
+    id: `edit-form-project-${uniqueIdentifier}`,
+    children: [
+      {
+        element: "div",
+        classList: ["form-group"],
+        children: [
+          {
+            element: "label",
+            innerText: "Title:"
+          },
+          {
+            element: "input",
+            type: "text",
+            classList: ["form-control"],
+            id: `project-${uniqueIdentifier}-input-title`,
+            value: project.title
+          }
+        ]
+      },
+      {
+        element: "div",
+        classList: ["form-group"],
+        children: [
+          {
+            element: "label",
+            innerText: "Description:"
+          },
+          {
+            element: "input",
+            type: "text",
+            classList: ["form-control"],
+            id: `project-${uniqueIdentifier}-input-description`,
+            value: project.description
+          }
+        ]
+      },
+      {
+        element: "div",
+        classList: ["form-group"],
+        children: [
+          {
+            element: "label",
+            innerText: "Due Date:"
+          },
+          {
+            element: "input",
+            type: "date",
+            classList: ["form-control"],
+            id: `project-${uniqueIdentifier}-input-date`,
+            value: project.dueDate
+          }
+        ]
+      },
+      {
+        element: "button",
+        classList: ["btn", "btn-primary"],
+        type: "button",
+        innerText: "Make Changes",
+        eventListeners: [
+          [
+            "click",
+            () => {
+              
+              const projectList = JSON.parse(localStorage.getItem("projects"));
+              const selectedProject = JSON.parse(
+                  localStorage.getItem("selected project")
+                );
+                
+              let titleInput = document.getElementById(
+                `project-${uniqueIdentifier}-input-title`
+              );
+              let descriptionInput = document.getElementById(
+                `project-${uniqueIdentifier}-input-description`
+              );
+              let dueDateInput = document.getElementById(
+                `project-${uniqueIdentifier}-input-date`
+              );
 
-  const titleFormGroup = document.createElement('div');
-  titleFormGroup.classList.add('form-group');
-  const titleLabel = document.createElement('label');
-  titleLabel.innerText = 'Title:';
-  const titleInput = document.createElement('input');
-  titleInput.type = 'text';
-  titleInput.classList.add('form-control');
-  titleInput.id = `project-${uniqueIdentifier}-input-title`;
-  titleInput.value = project.title;
-  titleFormGroup.appendChild(titleLabel);
-  titleFormGroup.appendChild(titleInput);
+              [
+                ['title', titleInput.value],
+                ['description', descriptionInput.value],
+                ['dueDate', dueDateInput.value]
+              ].forEach(arr => {
+                [projectList[uniqueIdentifier], selectedProject].forEach(proj => {
+                proj[arr[0]] = arr[1];
+              })});
 
-  const descriptionFormGroup = document.createElement('div');
-  descriptionFormGroup.classList.add('form-group');
-  const descriptionLabel = document.createElement('label');
-  descriptionLabel.innerText = 'Description:';
-  const descriptionInput = document.createElement('input');
-  descriptionInput.type = 'text';
-  descriptionInput.classList.add('form-control');
-  descriptionInput.id = `project-${uniqueIdentifier}-input-description`;
-  descriptionInput.value = project.description;
-  descriptionFormGroup.appendChild(descriptionLabel);
-  descriptionFormGroup.appendChild(descriptionInput);
-
-  const dueDateFormGroup = document.createElement('div');
-  dueDateFormGroup.classList.add('form-group');
-  const dueDateLabel = document.createElement('label');
-  dueDateLabel.innerText = 'Due Date:';
-  const dueDateInput = document.createElement('input');
-  dueDateInput.type = 'date';
-  dueDateInput.classList.add('form-control');
-  dueDateInput.id = `project-${uniqueIdentifier}-input-date`;
-  dueDateInput.value = project.dueDate;
-  dueDateFormGroup.appendChild(dueDateLabel);
-  dueDateFormGroup.appendChild(dueDateInput);
-
-  const submitButton = document.createElement('button');
-  submitButton.classList.add('btn', 'btn-primary');
-  submitButton.type = 'button';
-  submitButton.innerText = 'Make Changes';
-  submitButton.addEventListener('click', () => {
-    const projectList = JSON.parse(localStorage.getItem('projects'));
-    const selectedProject = JSON.parse(localStorage.getItem('selected project'));
-
-    projectList[uniqueIdentifier].title = titleInput.value;
-    projectList[uniqueIdentifier].description = descriptionInput.value;
-    projectList[uniqueIdentifier].dueDate = dueDateInput.value;
-
-    selectedProject.title = titleInput.value;
-    selectedProject.description = descriptionInput.value;
-    selectedProject.dueDate = dueDateInput.value;
-
-    localStorage.setItem('projects', JSON.stringify(projectList));
-    localStorage.setItem('selected project', JSON.stringify(selectedProject));
-
-    const projectsColumn = document.querySelector('.project-list');
-    const projectsList = JSON.parse(localStorage.getItem('projects')) || [];
-    populateList(projectsColumn, projectsList, displayProject);
-
-    const tasksColumn = document.querySelector('.task-list');
-    const selectedProjectTasks = JSON.parse(localStorage.getItem('selected project')).tasks;
-    populateList(tasksColumn, selectedProjectTasks, displayTask);
+              updateLocalStorage(
+                [
+                  ['projects', JSON.stringify(projectList)],
+                  ['selected project', JSON.stringify(selectedProject)]
+                ]
+              )
+              refreshLists();
+            }
+          ]
+        ]
+      }
+    ]
   });
-
-  form.appendChild(titleFormGroup);
-  form.appendChild(descriptionFormGroup);
-  form.appendChild(dueDateFormGroup);
-  form.appendChild(submitButton);
-
   return form;
 }
