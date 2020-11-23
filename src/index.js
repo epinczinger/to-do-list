@@ -1,11 +1,7 @@
 import 'bootstrap/js/dist/collapse';
 import './style/style.scss';
 
-import {
-  displayProject,
-  displayTask,
-  populateList,
-} from './dom';
+import domModule from './dom';
 
 import {
   processNewProjectForm,
@@ -19,7 +15,7 @@ document
 
     const tasksList = JSON.parse(localStorage.getItem('selected project')).tasks || [];
     const tasksColumn = document.querySelector('.task-list');
-    populateList(tasksColumn, tasksList, displayTask);
+    domModule.populateList(tasksColumn, tasksList, domModule.displayTask);
     document.getElementById('display-task-form-btn').click();
   });
 
@@ -30,11 +26,11 @@ document
     const projectsList = JSON.parse(localStorage.getItem('projects')) || [];
     const projectsColumn = document.querySelector('.project-list');
 
-    populateList(projectsColumn, projectsList, displayProject);
+    domModule.populateList(projectsColumn, projectsList, domModule.displayProject);
     document.getElementById('display-form-btn').click();
   });
 
 const projectsColumn = document.querySelector('.project-list');
 const projectsList = JSON.parse(localStorage.getItem('projects')) || [];
 
-populateList(projectsColumn, projectsList, displayProject);
+domModule.populateList(projectsColumn, projectsList, domModule.displayProject);
