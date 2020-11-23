@@ -48,7 +48,7 @@ export const displayProject = project => {
       [
         'click',
         event => {
-          if (event.target.tagName !== 'BUTTON') {
+          if (!['BUTTON', 'INPUT'].includes(event.target.tagName)) {
             const projects = JSON.parse(localStorage.getItem('projects'));
             const index = projects.findIndex(
               element => project.title === element.title,
