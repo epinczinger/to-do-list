@@ -159,7 +159,11 @@ const domModule = {
 
     const card = createContent({
       element: 'div',
-      classList: ['card', 'my-2'],
+      classList: [
+        'card',
+        'my-2',
+        `${task.priority.toLowerCase()}-priority`
+      ],
       children: [
         {
           element: 'h4',
