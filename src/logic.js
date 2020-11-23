@@ -1,9 +1,3 @@
-import {
-  displayProject,
-  populateList,
-  displayTask,
-} from "./dom";
-
 export function Task(title, description, dueDate, priority) {
   this.title = title;
   this.description = description;
@@ -23,13 +17,7 @@ export function Project(title, description, dueDate, priority) {
   };
 }
 
-const projectForm = document.getElementById('project-form');
-const taskForm = document.getElementById('task-form');
-
-const taskFormSubmitButton = taskForm.getElementsByClassName('btn', 'btn-primary')[0];
-const projectFormSubmitButton = projectForm.getElementsByClassName('btn', 'btn-primary')[0];
-
-function processNewProjectForm(form) {
+export function processNewProjectForm() {
   const newProjectTitle = document.getElementById('project-input-title').value;
   const newProjectDescription = document.getElementById(
     'project-input-description',
@@ -51,20 +39,7 @@ function processNewProjectForm(form) {
   localStorage.setItem('projects', JSON.stringify(projectsList));
 }
 
-projectFormSubmitButton.addEventListener('click', function (event) {
-  processNewProjectForm(this.parentElement);
-
-  let projectsList = JSON.parse(localStorage.getItem("projects")) || [];
-  let projectsColumn = document.querySelector(".project-list");
-
-  populateList(projectsColumn, projectsList, displayProject);
-
-  let displayBtn = document.getElementById('display-form-btn');
-
-  displayBtn.click();
-});
-
-function processNewTaskForm(form) {
+export function processNewTaskForm() {
   const newTaskTitle = document.getElementById('task-input-title').value;
   const newTaskDescription = document.getElementById(
     'task-input-description',
@@ -81,20 +56,20 @@ function processNewTaskForm(form) {
     newTaskTitle,
     newTaskDescription,
     newTaskDueDate,
-    newTaskPriority
+    newTaskPriority,
   );
 
-  let projectsList = JSON.parse(localStorage.getItem('projects'));
-  let selectedProject = JSON.parse(localStorage.getItem("selected project"));
-  
-  let selectedProjectTaskList = selectedProject.tasks || []; 
+  const projectsList = JSON.parse(localStorage.getItem('projects'));
+  const selectedProject = JSON.parse(localStorage.getItem('selected project'));
+
+  const selectedProjectTaskList = selectedProject.tasks || [];
   selectedProjectTaskList.push(newTask);
 
   let selectedProjectIndex;
 
-  for (let i = 0; i < projectsList.length ; i += 1) {
-    if (projectsList[i].title == selectedProject.title ) {
-     selectedProjectIndex = i;
+  for (let i = 0; i < projectsList.length; i += 1) {
+    if (projectsList[i].title === selectedProject.title) {
+      selectedProjectIndex = i;
     }
   }
 
@@ -104,13 +79,3 @@ function processNewTaskForm(form) {
   localStorage.setItem('projects', JSON.stringify(projectsList));
   localStorage.setItem('selected project', JSON.stringify(projectsList[selectedProjectIndex]));
 }
-
-taskFormSubmitButton.addEventListener("click", function (event) {
-  processNewTaskForm(this.parentElement);
-  let tasksList = JSON.parse(localStorage.getItem("selected project")).tasks || [];
-  let tasksColumn = document.querySelector(".task-list");
-
-  populateList(tasksColumn, tasksList, displayTask);
-  // let displayBtn = document.getElementById("display-task-form-btn");
-  // displayBtn.click();
-});
