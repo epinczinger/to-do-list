@@ -2,11 +2,13 @@ import 'bootstrap/js/dist/collapse';
 import './style/style.scss';
 
 import domModule from './dom';
+import { Project } from './logic';
 
 import {
   processNewProjectForm,
   processNewTaskForm,
 } from './logic';
+import { updateLocalStorage } from './helpers';
 
 document
   .getElementById('submit-task-form-button')
@@ -30,7 +32,27 @@ document
     document.getElementById('display-form-btn').click();
   });
 
-const projectsColumn = document.querySelector('.project-list');
-const projectsList = JSON.parse(localStorage.getItem('projects')) || [];
+let projects = JSON.parse(localStorage.getItem('projects'));
+let selectedProject = JSON.parse(localStorage.getItem('selected-project'));
 
-domModule.populateList(projectsColumn, projectsList, domModule.displayProject);
+if (projects === null) {
+  const seedProject = new Project ('Default Project', 'This is a project to get you started. Feel free to change the name, description and date!', '01/01/3000');
+  updateLocalStorage([
+    ['projects', JSON.stringify([seedProject])]
+  ])
+}
+if ([null, []].includes(selectedProject)) {
+  const firstProject = JSON.parse(localStorage.getItem('projects'))[0]
+  updateLocalStorage([
+    ['selected project', JSON.stringify(firstProject)]
+  ])
+}
+
+domModule.refreshLists();
+
+// Import bootstrap
+// Import styles
+// Import domModule 
+// Import form-processing functions
+// Add event listeners to form submission buttons
+// Add event listeners to form submission buttons

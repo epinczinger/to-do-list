@@ -33,7 +33,6 @@ export function processNewProjectForm() {
     newProjectDescription,
     newProjectDueDate,
   );
-
   const projectsList = JSON.parse(localStorage.getItem('projects')) || [];
   projectsList.push(newProject);
   localStorage.setItem('projects', JSON.stringify(projectsList));
