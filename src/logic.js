@@ -6,11 +6,10 @@ export function Task(title, description, dueDate, priority) {
   this.complete = false;
 }
 
-export function Project(title, description, dueDate, priority) {
+export function Project(title, description, dueDate) {
   this.title = title;
   this.description = description;
   this.dueDate = dueDate;
-  this.priority = priority;
   this.tasks = [];
   this.addTask = (newTask) => {
     this.tasks.push(newTask);
