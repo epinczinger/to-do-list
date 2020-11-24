@@ -32,8 +32,9 @@ body {
         @include text-center;
       }
 
-      .selected-project {
-        background: red;
+      .selected {
+        background-color: rgba(100, 100, 100, 0.2);
+        border: 2.5px solid rgba(100, 100, 100, 0.5);
       }
 
       .low-priority {

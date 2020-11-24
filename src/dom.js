@@ -44,12 +44,13 @@ const domModule = {
   },
   displayProject: project => {
     const projectList = JSON.parse(localStorage.getItem('projects'));
-    const titleList = projectList.map(project => project.title);
-    const uniqueIdentifier = titleList.indexOf(project.title);
+    const selectedProject = JSON.parse(localStorage.getItem('selected project')) || {};
+    const isSelected = selectedProject.title === project.title;
+    const uniqueIdentifier = projectList.findIndex(proj => proj.title === project.title);
 
     const card = createContent({
       element: 'div',
-      classList: ['card', 'my-2'],
+      classList: ['card', 'my-2', isSelected ? 'selected' : 'not-selected'],
       eventListeners: [
         [
           'click',
@@ -97,33 +98,32 @@ const domModule = {
           type: 'button',
           'data-toggle': 'collapse',
           'data-target': `#edit-form-project-${uniqueIdentifier}`,
-        },
-      ],
+        }
+      ]
     });
 
+    if (isSelected) {
+      let previousElement = card.children[0];
+      let extraInfo = createContent({
+        element: 'div',
+        classList: ['extra-info'],
+        children: [
+          {
+            element: 'p',
+            textContent: `Description: ${project.description ? project.description : 'None'}`
+          },
+          {
+            element: 'p',
+            textContent: `Due Date: ${project.dueDate ? project.dueDate : 'None'}`
+          },
+        ]
+      });
+      previousElement.insertAdjacentElement('afterend', extraInfo);
+    }
+
     const form = domModule.renderEditProjectForm(project, uniqueIdentifier);
+    
     card.appendChild(form);
-
-    // CONTENT WE WANT TO BE HIDDEN AT FIRST
-    // const body = document.createElement('p');
-    // body.classList.add('card-body');
-    // body.textContent = project.description;
-
-    // const priority = document.createElement('strong');
-    // priority.classList.add('card-body');
-    // priority.textContent = project.priority;
-
-    // const date = document.createElement('small');
-    // date.classList.add('card-body');
-    // date.textContent = project.dueDate;
-    // , body, priority, date
-
-    // ADD EVENT LISTENER TO CARD THAT CHANGES THE DISPLAY OF THE TASK COLUMN
-
-    // When we click a card, we want to run populateList on the task column with arguments:
-    // location = taskColumn
-    // list = project['selectedProject'].tasks
-    // displayFunction = displayTask
 
     return card;
   },

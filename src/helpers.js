@@ -1,4 +1,8 @@
 export function createContent(contentObj) {
+  if (contentObj.element === null) {
+    return null
+  }
+
   const output = document.createElement(contentObj.element);
   Object.keys(contentObj).forEach(key => {
     if (
