@@ -98,31 +98,31 @@ const domModule = {
           type: 'button',
           'data-toggle': 'collapse',
           'data-target': `#edit-form-project-${uniqueIdentifier}`,
-        }
-      ]
+        },
+      ],
     });
 
     if (isSelected) {
-      let previousElement = card.children[0];
-      let extraInfo = createContent({
+      const previousElement = card.children[0];
+      const extraInfo = createContent({
         element: 'div',
         classList: ['extra-info'],
         children: [
           {
             element: 'p',
-            textContent: `Description: ${project.description ? project.description : 'None'}`
+            textContent: `Description: ${project.description ? project.description : 'None'}`,
           },
           {
             element: 'p',
-            textContent: `Due Date: ${project.dueDate ? project.dueDate : 'None'}`
+            textContent: `Due Date: ${project.dueDate ? project.dueDate : 'None'}`,
           },
-        ]
+        ],
       });
       previousElement.insertAdjacentElement('afterend', extraInfo);
     }
 
     const form = domModule.renderEditProjectForm(project, uniqueIdentifier);
-    
+
     card.appendChild(form);
 
     return card;
@@ -162,7 +162,7 @@ const domModule = {
       classList: [
         'card',
         'my-2',
-        `${task.priority.toLowerCase()}-priority`
+        `${task.priority.toLowerCase()}-priority`,
       ],
       children: [
         {
