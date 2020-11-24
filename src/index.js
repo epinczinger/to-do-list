@@ -50,10 +50,3 @@ if ([null, []].includes(selectedProject)) {
 }
 
 domModule.refreshLists();
-
-// Import bootstrap
-// Import styles
-// Import domModule
-// Import form-processing functions
-// Add event listeners to form submission buttons
-// Add event listeners to form submission buttons
