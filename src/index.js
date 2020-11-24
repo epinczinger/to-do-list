@@ -2,12 +2,13 @@ import 'bootstrap/js/dist/collapse';
 import './style/style.scss';
 
 import domModule from './dom';
-import { Project } from './logic';
-
 import {
+  Project,
   processNewProjectForm,
   processNewTaskForm,
 } from './logic';
+
+
 import { updateLocalStorage } from './helpers';
 
 document
@@ -32,27 +33,27 @@ document
     document.getElementById('display-form-btn').click();
   });
 
-let projects = JSON.parse(localStorage.getItem('projects'));
-let selectedProject = JSON.parse(localStorage.getItem('selected-project'));
+const projects = JSON.parse(localStorage.getItem('projects'));
+const selectedProject = JSON.parse(localStorage.getItem('selected-project'));
 
 if (projects === null) {
-  const seedProject = new Project ('Default Project', 'This is a project to get you started. Feel free to change the name, description and date!', '01/01/3000');
+  const seedProject = new Project('Default Project', 'This is a project to get you started. Feel free to change the name, description and date!', '01/01/3000');
   updateLocalStorage([
-    ['projects', JSON.stringify([seedProject])]
-  ])
+    ['projects', JSON.stringify([seedProject])],
+  ]);
 }
 if ([null, []].includes(selectedProject)) {
-  const firstProject = JSON.parse(localStorage.getItem('projects'))[0]
+  const firstProject = JSON.parse(localStorage.getItem('projects'))[0];
   updateLocalStorage([
-    ['selected project', JSON.stringify(firstProject)]
-  ])
+    ['selected project', JSON.stringify(firstProject)],
+  ]);
 }
 
 domModule.refreshLists();
 
 // Import bootstrap
 // Import styles
-// Import domModule 
+// Import domModule
 // Import form-processing functions
 // Add event listeners to form submission buttons
 // Add event listeners to form submission buttons

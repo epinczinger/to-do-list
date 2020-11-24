@@ -1,6 +1,6 @@
 export function createContent(contentObj) {
   if (contentObj.element === null) {
-    return null
+    return null;
   }
 
   const output = document.createElement(contentObj.element);
